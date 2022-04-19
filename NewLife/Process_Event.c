@@ -1,10 +1,10 @@
 
 #include<SDL.h>
-#include"Define.h"
-#include"MathUtil.h"
+#include"Header Files\Define.h"
+#include"Header Files\MathUtil.h"
 #include<math.h> 
-#include"Collision.h"
-#include"Process_Event.h"
+#include"Header Files\Collision.h"
+#include"Header Files\Process_Event.h"
 
 void initOpject(Opject *opjects, int posX, int posY, int angOject)
 {

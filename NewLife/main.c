@@ -1,13 +1,13 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
-#include "MathUtil.h"
+#include "Header Files\MathUtil.h"
 #include <math.h>
 #include <stdio.h>
-#include"Define.h"
-#include"WindowSDL.h"
-#include"Collision.h"
-#include"Process_Event.h"
+#include"Header Files\Define.h"
+#include"Header Files\WindowSDL.h"
+#include"Header Files\Collision.h"
+#include"Header Files\Process_Event.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +20,11 @@ int main(int argc, char *argv[])
 	SDL_Renderer *renderTarget = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 		printf("Init Video False ! \n %s", SDL_GetError());
-
+	int imgFlags = IMG_INIT_PNG;
+	if (!(IMG_Init(imgFlags) & imgFlags))
+	{
+		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+	}
 	Opject alCar1, alCar2, alBall;
 
 	initOpject(&alCar1, 120, SCREEN_HEIGHT / 2 - CAR_HEIGHT, 90);
@@ -59,6 +63,7 @@ int main(int argc, char *argv[])
 	car2 = NULL;
 	background = NULL;
 	ball = NULL;
+	IMG_Quit();
 	SDL_Quit();
 	return 0;
 }

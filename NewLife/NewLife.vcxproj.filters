@@ -32,39 +32,36 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MathUtil.h">
+    <ClInclude Include="Header Files\Collision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Define.h">
+    <ClInclude Include="Header Files\Define.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WindowSDL.h">
+    <ClInclude Include="Header Files\MathUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
+    <ClInclude Include="Header Files\Process_Event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Process_Event.h">
+    <ClInclude Include="Header Files\WindowSDL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="car1.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="car2.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="goalNet.png">
+    <Image Include="ball.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="bg.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="ball.png">
+    <Image Include="bgOri.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="bgOri.png">
+    <Image Include="car1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="car2.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

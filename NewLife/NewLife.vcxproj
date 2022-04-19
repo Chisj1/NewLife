@@ -139,11 +139,11 @@
     <ClCompile Include="WindowSDL.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="Define.h" />
-    <ClInclude Include="MathUtil.h" />
-    <ClInclude Include="Process_Event.h" />
-    <ClInclude Include="WindowSDL.h" />
+    <ClInclude Include="Header Files\Collision.h" />
+    <ClInclude Include="Header Files\Define.h" />
+    <ClInclude Include="Header Files\MathUtil.h" />
+    <ClInclude Include="Header Files\Process_Event.h" />
+    <ClInclude Include="Header Files\WindowSDL.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="ball.png" />
@@ -151,7 +151,6 @@
     <Image Include="bgOri.png" />
     <Image Include="car1.png" />
     <Image Include="car2.png" />
-    <Image Include="goalNet.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
