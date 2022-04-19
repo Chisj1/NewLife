@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
 	static SDL_Texture *car1 = NULL;
 	static SDL_Texture *car2 = NULL;
 	static SDL_Texture *ball = NULL;
+	static SDL_Texture *goal = NULL;
 	SDL_Window *window = NULL;
 	window = SDL_CreateWindow("Rocket League 2D", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	SDL_Renderer *renderTarget = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -36,18 +37,38 @@ int main(int argc, char *argv[])
 	car1 = loadTexture("car1.png", renderTarget);
 	car2 = loadTexture("car2.png", renderTarget);
 	ball = loadTexture("ball.png", renderTarget);
-	
+	goal = loadTexture("goal.png", renderTarget);
+	SDL_Rect goalRect;
+	SDL_QueryTexture(goal, NULL, NULL, &goalRect.w, &goalRect.h);
+	const int W = goalRect.w;
+	const int H = goalRect.h;
+	goalRect.w = 0;
+	goalRect.h = 0;
+	goalRect.x = 800-W/3;
+	goalRect.y = 450-H/3;
 
 	int done = 0;
 
 	//Event loop
+	float currTime = 0;
+	float preTime = 0;
+	float delta = 0;
+	float delay = 0;
 	while (!done)
 	{
+
 		//Check for events
+		preTime = currTime;
+		currTime = SDL_GetTicks();
+		delta = (currTime - preTime) / 1000.0f;
+
 		done = processEvents(window, &alCar1, &alCar2, &alBall);
+		if (isGoal(alBall))
+		{
+			goalCheer(&goalRect, H, W, delta, &alCar1, &alCar2, &alBall, &delay);
+		}
 
-		doRender(renderTarget, &alCar1, &alCar2, &alBall, car1, car2, ball, background);
-
+		doRender(renderTarget, &alCar1, &alCar2, &alBall, car1, car2, ball, background, goal, goalRect);
 		SDL_Delay(10);
 	}
 

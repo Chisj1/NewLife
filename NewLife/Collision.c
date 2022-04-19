@@ -2,6 +2,8 @@
 #include"Header Files\Collision.h"
 #include"Header Files\Define.h"
 #include<SDL.h>
+
+
 int collide2d(float x1, float y1, float x2, float y2, float wt1, float ht1, float wt2, float ht2)
 {
 	return (!((x1 > (x2 + wt2)) || (x2 > (x1 + wt1)) || (y1 > (y2 + ht2)) || (y2 > (y1 + ht1))));
@@ -30,13 +32,12 @@ void BallCollision(Opject *car, Opject *ball)
 
 		car->gdx += -vx * carSpeed;
 		car->gdy += -vy * carSpeed;
-		ball->gdx += vx * carSpeed * 5;
-		ball->gdy += vy * carSpeed * 5;
+		ball->gdx += vx * carSpeed * 4.0f;
+		ball->gdy += vy * carSpeed * 4.0f;
 
 	}
 
 }
-
 
 
 void carCollision(Opject *car, Opject *car2)
@@ -131,10 +132,23 @@ void applyForces(Opject *car)
 	car->gdy *= accGd;
 }
 
+
+int isGoal(Opject ball)
+{
+	if(ball.y >= 330 && ball.y <= 560)
+	{
+		if (ball.x <= 25)
+			return 1;
+		else if (ball.x >= 1500)
+			return 1;
+	}
+	return 0;
+}
+
 void applyForcesBall(Opject *ball)
 {
-	const float accD = 0.96f;
-	const float accGd = 0.98f;
+	const float accD = 0.95f;
+	const float accGd = 0.97f;
 
 	if (ball->y >= 330 && ball->y <= 560)
 	{
@@ -144,7 +158,7 @@ void applyForcesBall(Opject *ball)
 			ball->dy *= accD * 0.1f;
 			ball->gdx *= accGd * 0.1f;
 			ball->gdy *= accGd * 0.1f;
-			
+
 		}
 		else if (ball->x >= 1500)
 		{
@@ -152,10 +166,9 @@ void applyForcesBall(Opject *ball)
 			ball->dy *= accD * 0.1f;
 			ball->gdx *= accGd * 0.1f;
 			ball->gdy *= accGd * 0.1f;
+
 		}
-
 	}
-
 	else
 	{
 		if (ball->x < 42)

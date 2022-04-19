@@ -64,5 +64,8 @@
     <Image Include="car2.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="goal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
