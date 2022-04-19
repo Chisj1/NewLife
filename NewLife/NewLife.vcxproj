@@ -146,9 +146,9 @@
     <ClInclude Include="WindowSDL.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="ball2.png" />
+    <Image Include="ball.png" />
     <Image Include="bg.png" />
-    <Image Include="bg3.png" />
+    <Image Include="bgOri.png" />
     <Image Include="car1.png" />
     <Image Include="car2.png" />
     <Image Include="goalNet.png" />

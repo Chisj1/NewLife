@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	background = loadTexture("bg.png", renderTarget);
 	car1 = loadTexture("car1.png", renderTarget);
 	car2 = loadTexture("car2.png", renderTarget);
-	ball = loadTexture("ball2.png", renderTarget);
+	ball = loadTexture("ball.png", renderTarget);
 	
 
 	int done = 0;
