@@ -1,7 +1,7 @@
 
 #include <math.h>
 #include "MathUtil.h"
-#define M_PI 3.14
+#include"Define.h"
 float dot(float x1, float y1, float x2, float y2)
 {
   return x1*x2 + y1*y2;
@@ -16,11 +16,11 @@ float length(float x, float y)
 
 void normalize(float *x, float *y)
 {
-  float lenSq = dot(*x, *y, *x, *y);
-  float len = sqrtf(lenSq);
-  
-  *x /= len;
-  *y /= len;
+	float lenSq = dot(*x, *y, *x, *y);
+	float len = sqrtf(lenSq);
+
+	*x /= len;
+	*y /= len;
 }
 
 void reflect(float ix, float iy, float nx, float ny, float *rx, float *ry)

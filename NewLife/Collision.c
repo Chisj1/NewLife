@@ -1,10 +1,16 @@
 #include"MathUtil.h"
 #include"Collision.h"
 #include"Define.h"
+#include<SDL.h>
+int collide2d(float x1, float y1, float x2, float y2, float wt1, float ht1, float wt2, float ht2)
+{
+	return (!((x1 > (x2 + wt2)) || (x2 > (x1 + wt1)) || (y1 > (y2 + ht2)) || (y2 > (y1 + ht1))));
+}
+
 
 void BallCollision(Opject *car, Opject *ball)
 {
-	const acc = 0.1f;
+	const float acc = 0.1f;
 	const float wBall = BALL_RADIUS, hBall = BALL_RADIUS;
 	const float wCar = CAR_WIDTH * 2, hCar = CAR_HEIGHT * 2;
 
@@ -31,9 +37,11 @@ void BallCollision(Opject *car, Opject *ball)
 
 }
 
+
+
 void carCollision(Opject *car, Opject *car2)
 {
-	const float w = CAR_WIDTH * 4 - 2 , h = CAR_HEIGHT * 4 + 1;
+	const float w = CAR_WIDTH * 2 + 20, h = CAR_HEIGHT * 2 - 25;
 	if (collide2d(car->x, car->y, car2->x, car2->y, w, h, w, h))
 	{
 		float vx = car2->x - car->x;
@@ -60,11 +68,13 @@ void carCollision(Opject *car, Opject *car2)
 	}
 }
 
-void applyForces(Opject *car, const int w, const int h)
+void applyForces(Opject *car)
 {
-	if (car->x  < 22 + w )
+	const float accD = 0.96f;
+	const float accGd = 0.92f;
+	if (car->x < 60)
 	{
-		car->x = 22 + 5 + w;
+		car->x = 60 + 5;
 		if (car->gdx < 0)
 		{
 			car->gdx *= -1;
@@ -74,9 +84,9 @@ void applyForces(Opject *car, const int w, const int h)
 			car->dx *= -1;
 		}
 	}
-	if (car->x  > SCREEN_WIDTH - 45 - w)
+	if (car->x > SCREEN_WIDTH - 110)
 	{
-		car->x = SCREEN_WIDTH - 45 - 5 - w;
+		car->x = SCREEN_WIDTH - 110 - 5;
 		if (car->gdx > 0)
 		{
 			car->gdx *= -1;
@@ -86,9 +96,9 @@ void applyForces(Opject *car, const int w, const int h)
 			car->dx *= -1;
 		}
 	}
-	if (car->y + h < 80 )
+	if (car->y < 18)
 	{
-		car->y =  80 + 5 - h;
+		car->y = 18 + 5;
 		if (car->gdy < 0)
 		{
 			car->gdy *= -1;
@@ -98,9 +108,9 @@ void applyForces(Opject *car, const int w, const int h)
 			car->dy *= -1;
 		}
 	}
-	if (car->y > SCREEN_HEIGHT - 30 - h)
+	if (car->y > SCREEN_HEIGHT - 80)
 	{
-		car->y = SCREEN_HEIGHT - 30 - 5 - h;
+		car->y = SCREEN_HEIGHT - 80 - 5;
 		if (car->gdy > 0)
 		{
 			car->gdy *= -1;
@@ -115,16 +125,96 @@ void applyForces(Opject *car, const int w, const int h)
 	car->y += car->dy;
 	car->x += car->gdx;
 	car->y += car->gdy;
-	car->dx *= 0.96;
-	car->dy *= 0.96;
-	car->gdx *= 0.92;
-	car->gdy *= 0.92;
+	car->dx *= accD;
+	car->dy *= accD;
+	car->gdx *= accGd;
+	car->gdy *= accGd;
 }
 
-
-
-
-int collide2d(float x1, float y1, float x2, float y2, float wt1, float ht1, float wt2, float ht2)
+void applyForcesBall(Opject *ball)
 {
-	return (!((x1 > (x2 + wt2)) || (x2 > (x1 + wt1)) || (y1 > (y2 + ht2)) || (y2 > (y1 + ht1))));
+	const float accD = 0.96f;
+	const float accGd = 0.98f;
+
+	if (ball->y >= 330 && ball->y <= 560)
+	{
+		if (ball->x <= 25)
+		{
+			ball->dx *= accD * 0.1f;
+			ball->dy *= accD * 0.1f;
+			ball->gdx *= accGd * 0.1f;
+			ball->gdy *= accGd * 0.1f;
+			
+		}
+		else if (ball->x >= 1500)
+		{
+			ball->dx *= accD * 0.1f;
+			ball->dy *= accD * 0.1f;
+			ball->gdx *= accGd * 0.1f;
+			ball->gdy *= accGd * 0.1f;
+		}
+
+	}
+
+	else
+	{
+		if (ball->x < 42)
+		{
+			ball->x = 42 + 5;
+			if (ball->gdx < 0)
+			{
+				ball->gdx *= -1;
+			}
+			if (ball->dx < 0)
+			{
+				ball->dx *= -1;
+			}
+		}
+		if (ball->x > SCREEN_WIDTH - 90 - BALL_RADIUS / 2)
+		{
+			ball->x = SCREEN_WIDTH - 90 - BALL_RADIUS / 2 - 5;
+			if (ball->gdx > 0)
+			{
+				ball->gdx *= -1;
+			}
+			if (ball->dx > 0)
+			{
+				ball->dx *= -1;
+			}
+		}
+		if (ball->y < 18)
+		{
+			ball->y = 18 + 5;
+			if (ball->gdy < 0)
+			{
+				ball->gdy *= -1;
+			}
+			if (ball->dy < 0)
+			{
+				ball->dy *= -1;
+			}
+		}
+		if (ball->y > SCREEN_HEIGHT - 70 - BALL_RADIUS / 2)
+		{
+			ball->y = SCREEN_HEIGHT - 70 - BALL_RADIUS / 2 - 5;
+			if (ball->gdy > 0)
+			{
+				ball->gdy *= -1;
+			}
+			if (ball->dy > 0)
+			{
+				ball->dy *= -1;
+			}
+		}
+	}
+
+	ball->x += ball->dx;
+	ball->y += ball->dy;
+	ball->x += ball->gdx;
+	ball->y += ball->gdy;
+	ball->dx *= accD;
+	ball->dy *= accD;
+	ball->gdx *= accGd;
+	ball->gdy *= accGd;
 }
+

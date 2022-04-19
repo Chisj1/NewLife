@@ -3,7 +3,10 @@
 #include"Define.h"
 #include"MathUtil.h"
 #include<math.h> 
-void initOpject(Opject *opjects, int posX, int posY)
+#include"Collision.h"
+#include"Process_Event.h"
+
+void initOpject(Opject *opjects, int posX, int posY, int angOject)
 {
 	opjects->x = posX;
 	opjects->y = posY;
@@ -11,14 +14,14 @@ void initOpject(Opject *opjects, int posX, int posY)
 	opjects->dy = 0;
 	opjects->gdx = 0;
 	opjects->gdy = 0;
-	opjects->ang = 0;
+	opjects->ang = angOject;
 }
 
 int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *alBall)
 {
 	SDL_Event event;
 	int done = 0;
-	const float acc = 2.0f;
+	const float acc = 2.0f*1.3f;
 	while (SDL_PollEvent(&event))
 	{
 		switch (event.type)
@@ -54,66 +57,60 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	if (state[SDL_SCANCODE_A])
 	{
-		alCar1->ang -= 2;
+		alCar1->ang -= 2.0f;
 	}
 	if (state[SDL_SCANCODE_D])
 	{
-		alCar1->ang += 2;
+		alCar1->ang += 2.0f;
 	}
 	if (state[SDL_SCANCODE_W])
 	{
-		float cdx = sinf(radiansFromDegrees(alCar1->ang))*acc*0.1;
-		float cdy = -cosf(radiansFromDegrees(alCar1->ang))*acc*0.1;
+		float cdx = sinf(radiansFromDegrees(alCar1->ang))*acc*0.1f;
+		float cdy = -cosf(radiansFromDegrees(alCar1->ang))*acc*0.1f;
 
 		alCar1->dx += cdx;
 		alCar1->dy += cdy;
 	}
 	if (state[SDL_SCANCODE_S])
 	{
-		float cdx = sinf(radiansFromDegrees(alCar1->ang))*0.1;
-		float cdy = -cosf(radiansFromDegrees(alCar1->ang))*0.1;
+		float cdx = sinf(radiansFromDegrees(alCar1->ang))*0.1f;
+		float cdy = -cosf(radiansFromDegrees(alCar1->ang))*0.1f;
 		alCar1->dx += -cdx;
 		alCar1->dy += -cdy;
 	}
 
 	if (state[SDL_SCANCODE_LEFT])
 	{
-		alCar2->ang -= 2;
+		alCar2->ang -= 2.0f;
 	}
 	if (state[SDL_SCANCODE_RIGHT])
 	{
-		alCar2->ang += 2;
+		alCar2->ang += 2.0f;
 	}
 	if (state[SDL_SCANCODE_UP])
 	{
-		float cdx = sinf(radiansFromDegrees(alCar2->ang))*acc*0.1;
-		float cdy = -cosf(radiansFromDegrees(alCar2->ang))*acc*0.1;
+		float cdx = sinf(radiansFromDegrees(alCar2->ang))*acc*0.1f;
+		float cdy = -cosf(radiansFromDegrees(alCar2->ang))*acc*0.1f;
 
 		alCar2->dx += cdx;
 		alCar2->dy += cdy;
 	}
 	if (state[SDL_SCANCODE_DOWN])
 	{
-		float cdx = sinf(radiansFromDegrees(alCar2->ang))*0.1;
-		float cdy = -cosf(radiansFromDegrees(alCar2->ang))*0.1;
+		float cdx = sinf(radiansFromDegrees(alCar2->ang))*0.1f;
+		float cdy = -cosf(radiansFromDegrees(alCar2->ang))*0.1f;
 
 		alCar2->dx += -cdx;
 		alCar2->dy += -cdy;
 	}
 
 
-	float cdx = sinf(radiansFromDegrees(alBall->ang))*0.1;
-	float cdy = -cosf(radiansFromDegrees(alBall->ang))*0.1;
-	alBall->dx -= cdx;
-	alBall->dy -= cdy;
-	
-
 	carCollision(alCar1, alCar2); 
 	BallCollision(alCar1, alBall);
 	BallCollision(alCar2, alBall);
-	applyForces(alCar1, CAR_WIDTH * 2, CAR_HEIGHT * 2);
-	applyForces(alCar2, CAR_WIDTH * 2, CAR_HEIGHT * 2);
-	applyForces(alBall, BALL_RADIUS / 2 , BALL_RADIUS / 2 );
+	applyForces(alCar1);
+	applyForces(alCar2);
+	applyForcesBall(alBall);
 
 	return done;
 }
@@ -122,17 +119,16 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 {
 	//set the drawing color to blue
 	SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
-
 	//Clear the screen (to blue)
 	SDL_RenderClear(renderTarget);
 	SDL_RenderCopy(renderTarget, background, NULL, NULL);
 	//set the drawing color to white
 	SDL_SetRenderDrawColor(renderTarget, 255, 255, 255, 255);
 
-	SDL_Rect rect = { alCar->x, alCar->y, CAR_WIDTH * 4, CAR_HEIGHT * 4 };
+	SDL_Rect rect = { alCar->x, alCar->y, CAR_WIDTH * 2, CAR_HEIGHT * 2 };
 	SDL_RenderCopyEx(renderTarget, car1, NULL, &rect, alCar->ang, NULL, 0);
 
-	SDL_Rect rect2 = { alCar2->x, alCar2->y, CAR_WIDTH * 4, CAR_HEIGHT * 4};
+	SDL_Rect rect2 = { alCar2->x, alCar2->y, CAR_WIDTH * 2, CAR_HEIGHT * 2};
 	SDL_RenderCopyEx(renderTarget, car2, NULL, &rect2, alCar2->ang, NULL, 0);
 
 	SDL_Rect rectBall = { alBall->x, alBall->y, BALL_RADIUS + 15, BALL_RADIUS + 15 };

@@ -49,19 +49,22 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="bg.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="car1.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="car2.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="ball.png">
+    <Image Include="ball2.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="bg2.jpg">
+    <Image Include="bg3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="goalNet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bg.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
