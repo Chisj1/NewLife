@@ -133,14 +133,20 @@ void applyForces(Opject *car)
 }
 
 
-int isGoal(Opject ball)
+int isGoal(Opject *ball)
 {
-	if(ball.y >= 330 && ball.y <= 560)
+	if ((ball->y >= 330 && ball->y <= 560))
 	{
-		if (ball.x <= 25)
+		if (ball->x <= 25)
+		{
 			return 1;
-		else if (ball.x >= 1500)
+		}
+
+		else if (ball->x >= 1500)
+		{
 			return 1;
+		}
+
 	}
 	return 0;
 }

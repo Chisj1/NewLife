@@ -149,9 +149,14 @@
     <Image Include="ball.png" />
     <Image Include="bg.png" />
     <Image Include="bgOri.png" />
+    <Image Include="g0.png" />
+    <Image Include="g1.png" />
     <Image Include="car1.png" />
     <Image Include="car2.png" />
+    <Image Include="g2.png" />
+    <Image Include="g3.png" />
     <Image Include="goal.png" />
+    <Image Include="goalCount.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
