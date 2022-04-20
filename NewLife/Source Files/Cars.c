@@ -1,7 +1,8 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
-#include "MathUtil.h"
+#include"..\Header Files\Define.h"
+#include "..\Header Files\MathUtil.h"
 #include <math.h>
 #include <stdio.h>
 
@@ -74,10 +75,10 @@ static void applyForces(Man *man)
   man->y += man->dy;
   man->x += man->gdx;
   man->y += man->gdy;  
-  man->dx *= 0.96;
-  man->dy *= 0.96;
-  man->gdx *= 0.92;
-  man->gdy *= 0.92;
+  man->dx *= 0.96f;
+  man->dy *= 0.96f;
+  man->gdx *= 0.92f;
+  man->gdy *= 0.92f;
 }
 
 //useful utility function to see if two rectangles are colliding at all

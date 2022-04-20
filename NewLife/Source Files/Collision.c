@@ -1,6 +1,6 @@
-#include"Header Files\MathUtil.h"
-#include"Header Files\Collision.h"
-#include"Header Files\Define.h"
+#include"..\Header Files\MathUtil.h"
+#include"..\Header Files\Define.h"
+#include"..\Header Files\Collision.h"
 #include<SDL.h>
 
 

@@ -1,5 +1,5 @@
-#include"Header Files\WindowSDL.h"
-#include"Header Files\Define.h"
+#include"..\Header Files\Define.h"
+#include"..\Header Files\WindowSDL.h"
 #include<SDL.h>
 #include <SDL_image.h>
 

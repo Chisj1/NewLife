@@ -132,13 +132,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Collision.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="MathUtil.c" />
-    <ClCompile Include="Process_Event.c" />
-    <ClCompile Include="WindowSDL.c" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Header Files\Collision.h" />
     <ClInclude Include="Header Files\Define.h" />
     <ClInclude Include="Header Files\MathUtil.h" />
@@ -146,17 +139,25 @@
     <ClInclude Include="Header Files\WindowSDL.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="ball.png" />
-    <Image Include="bg.png" />
-    <Image Include="bgOri.png" />
-    <Image Include="g0.png" />
-    <Image Include="g1.png" />
-    <Image Include="car1.png" />
-    <Image Include="car2.png" />
-    <Image Include="g2.png" />
-    <Image Include="g3.png" />
-    <Image Include="goal.png" />
-    <Image Include="goalCount.png" />
+    <Image Include="Resource Files\ball.png" />
+    <Image Include="Resource Files\bg.png" />
+    <Image Include="Resource Files\bgOri.png" />
+    <Image Include="Resource Files\car1.png" />
+    <Image Include="Resource Files\car2.png" />
+    <Image Include="Resource Files\goal.png" />
+    <Image Include="Resource Files\goalNet.png" />
+    <Image Include="Resource Files\Goal\g0.png" />
+    <Image Include="Resource Files\Goal\g1.png" />
+    <Image Include="Resource Files\Goal\g2.png" />
+    <Image Include="Resource Files\Goal\g3.png" />
+    <Image Include="Resource Files\Goal\goalCount.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source Files\Collision.c" />
+    <ClCompile Include="Source Files\main.c" />
+    <ClCompile Include="Source Files\MathUtil.c" />
+    <ClCompile Include="Source Files\Process_Event.c" />
+    <ClCompile Include="Source Files\WindowSDL.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

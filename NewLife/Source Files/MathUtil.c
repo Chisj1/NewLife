@@ -1,7 +1,8 @@
 
 #include <math.h>
-#include "Header Files\MathUtil.h"
-#include"Header Files\Define.h"
+#include"..\Header Files\Define.h"
+#include "..\Header Files\MathUtil.h"
+
 float dot(float x1, float y1, float x2, float y2)
 {
   return x1*x2 + y1*y2;

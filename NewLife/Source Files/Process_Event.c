@@ -1,11 +1,11 @@
 
 #include<SDL.h>
-#include"Header Files\Define.h"
-#include"Header Files\MathUtil.h"
+#include"..\Header Files\Define.h"
+#include"..\Header Files\MathUtil.h"
 #include<math.h> 
-#include"Header Files\Collision.h"
-#include"Header Files\Process_Event.h"
-#include"Header Files\WindowSDL.h"
+#include"..\Header Files\Collision.h"
+#include"..\Header Files\Process_Event.h"
+#include"..\Header Files\WindowSDL.h"
 
 void goalCounting(int goalCount1, int goalCount2, SDL_Rect *SgoalCount1, SDL_Rect *SgoalCount2, float FrameW)
 {
@@ -57,7 +57,6 @@ void goalCheer(SDL_Rect *goalRec, int H, int W, float dental, Opject *alCar1, Op
 		goalRec->w = 0;
 		*delay = 0;
 	}
-	
 }
 
 int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *alBall)
@@ -91,7 +90,7 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 		}
 		break;
 		case SDL_QUIT:
-			//quit out of the game
+			
 			done = 1;
 			break;
 		}
@@ -160,12 +159,12 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 
 void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject *alBall, SDL_Texture *car1, SDL_Texture *car2, SDL_Texture *ball, SDL_Texture *background, SDL_Texture *goal, SDL_Rect goalRect, SDL_Texture *goalCount1, SDL_Texture *goalCount2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, SDL_Rect DgoalCount1, SDL_Rect DgoalCount2)
 {
-	//set the drawing color to blue
+	
 	SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
-	//Clear the screen (to blue)
+	
 	SDL_RenderClear(renderTarget);
 	SDL_RenderCopy(renderTarget, background, NULL, NULL);
-	//set the drawing color to white
+	
 	SDL_SetRenderDrawColor(renderTarget, 255, 255, 255, 255);
 
 	SDL_Rect rect = { alCar->x, alCar->y, CAR_WIDTH * 2, CAR_HEIGHT * 2 };
