@@ -6,6 +6,7 @@
 #include"..\Header Files\Collision.h"
 #include"..\Header Files\Process_Event.h"
 #include"..\Header Files\WindowSDL.h"
+#include<SDL_mixer.h>
 
 void goalCounting(int goalCount1, int goalCount2, SDL_Rect *SgoalCount1, SDL_Rect *SgoalCount2, float FrameW)
 {
@@ -23,7 +24,7 @@ void initOpject(Opject *opjects, int posX, int posY, int angOject)
 	opjects->gdy = 0;
 	opjects->ang = angOject;
 }
-void goalCheer(SDL_Rect *goalRec, int H, int W, float dental, Opject *alCar1, Opject *alCar2, Opject *alBall, float *delay, int *goalCount1, int *goalCount2)
+void goalCheer(SDL_Rect *goalRec, int H, int W, float dental, Opject *alCar1, Opject *alCar2, Opject *alBall, float *delay, int *goalCount1, int *goalCount2, Mix_Chunk *soundEffectGoal)
 {
 	float rate = 0;
 	if (goalRec->h <= H / 1.5)
@@ -32,9 +33,14 @@ void goalCheer(SDL_Rect *goalRec, int H, int W, float dental, Opject *alCar1, Op
 	}
 	else
 		rate = 0;
+
 	goalRec->h += H * rate*dental;
 	goalRec->w += W * rate*dental;
-	*delay += H * dental / 2.5;
+	*delay += H * dental / 2.5f;
+	
+	if(*delay == H*dental / 2.5f)
+		Mix_PlayChannel(-1, soundEffectGoal, 0);
+
 	if (*delay >= H)
 	{
 		if (alBall->x <= 25)
@@ -90,7 +96,7 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 		}
 		break;
 		case SDL_QUIT:
-			
+
 			done = 1;
 			break;
 		}
@@ -159,12 +165,12 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 
 void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject *alBall, SDL_Texture *car1, SDL_Texture *car2, SDL_Texture *ball, SDL_Texture *background, SDL_Texture *goal, SDL_Rect goalRect, SDL_Texture *goalCount1, SDL_Texture *goalCount2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, SDL_Rect DgoalCount1, SDL_Rect DgoalCount2)
 {
-	
+
 	SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
-	
+
 	SDL_RenderClear(renderTarget);
 	SDL_RenderCopy(renderTarget, background, NULL, NULL);
-	
+
 	SDL_SetRenderDrawColor(renderTarget, 255, 255, 255, 255);
 
 	SDL_Rect rect = { alCar->x, alCar->y, CAR_WIDTH * 2, CAR_HEIGHT * 2 };

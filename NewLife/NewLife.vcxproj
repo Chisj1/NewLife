@@ -159,6 +159,10 @@
     <ClCompile Include="Source Files\Process_Event.c" />
     <ClCompile Include="Source Files\WindowSDL.c" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resource Files\Music\gameBGmusic.mp3" />
+    <Media Include="Resource Files\Music\goal.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

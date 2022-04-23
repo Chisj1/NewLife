@@ -16,6 +16,9 @@
     <Filter Include="Resource Files\Goal">
       <UniqueIdentifier>{d80b1b51-0382-40d7-8946-7dd7fa057002}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Music">
+      <UniqueIdentifier>{8ca03c14-d521-4820-a62c-20b8c9271527}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\Collision.h">
@@ -88,5 +91,13 @@
     <ClCompile Include="Source Files\WindowSDL.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resource Files\Music\gameBGmusic.mp3">
+      <Filter>Resource Files\Music</Filter>
+    </Media>
+    <Media Include="Resource Files\Music\goal.wav">
+      <Filter>Resource Files\Music</Filter>
+    </Media>
   </ItemGroup>
 </Project>

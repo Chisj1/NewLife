@@ -8,6 +8,8 @@
 #include"..\Header Files\WindowSDL.h"
 #include"..\Header Files\Collision.h"
 #include"..\Header Files\Process_Event.h"
+#include "SDL_mixer.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -28,6 +30,10 @@ int main(int argc, char *argv[])
 	{
 		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
 	}
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
+		printf("Error \n%s", Mix_GetError());
+
+
 	Opject alCar1, alCar2, alBall;
 
 	initOpject(&alCar1, 120, SCREEN_HEIGHT / 2 - CAR_HEIGHT, 90);
@@ -67,17 +73,28 @@ int main(int argc, char *argv[])
 	int goalCount1 = 0;
 	int goalCount2 = 0;
 
+	Mix_Music *bgm = Mix_LoadMUS(".\\Resource Files\\Music\\gameBGmusic.mp3");
+	if (bgm == NULL)
+		printf("Music Er");
+	Mix_VolumeMusic(MIX_MAX_VOLUME / 10);
+	Mix_Chunk *soundEffectGoal = Mix_LoadWAV(".\\Resource Files\\Music\\goal.wav");
+	if (soundEffectGoal == NULL)
+		printf("Eror SOund");
 	while (!done)
 	{
 
 		preTime = currTime;
 		currTime = (float) SDL_GetTicks();
 		delta = (currTime - preTime) / 1000.0f;
-
+		if (!Mix_PlayingMusic())
+			Mix_PlayMusic(bgm, -1);
 		done = processEvents(window, &alCar1, &alCar2, &alBall);
-		if (isGoal(&alBall))
-			goalCheer(&goalRect, H, W, delta, &alCar1, &alCar2, &alBall, &delay, &goalCount1, &goalCount2);
 
+		if (isGoal(&alBall))
+		{
+			goalCheer(&goalRect, H, W, delta, &alCar1, &alCar2, &alBall, &delay, &goalCount1, &goalCount2, soundEffectGoal);
+		}
+			
 		goalCounting(goalCount1, goalCount2, &SgoalCount1, &SgoalCount2, 48);
 
 		doRender(renderTarget, &alCar1, &alCar2, &alBall, car1, car2, ball, background, goal, goalRect, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, DgoalCount1, DgoalCount2);
