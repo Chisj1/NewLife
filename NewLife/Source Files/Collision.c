@@ -9,10 +9,8 @@ int collide2d(float x1, float y1, float x2, float y2, float wt1, float ht1, floa
 	return (!((x1 > (x2 + wt2)) || (x2 > (x1 + wt1)) || (y1 > (y2 + ht2)) || (y2 > (y1 + ht1))));
 }
 
-
 void BallCollision(Opject *car, Opject *ball)
 {
-	const float acc = 0.1f;
 	const float wBall = BALL_RADIUS, hBall = BALL_RADIUS;
 	const float wCar = CAR_WIDTH * 2, hCar = CAR_HEIGHT * 2;
 
@@ -213,6 +211,31 @@ void applyForcesBall(Opject *ball)
 				ball->dy *= -1;
 			}
 		}
+		if (ball->y < 565 && ball->y > 565 - BALL_RADIUS - 10 && ball->x < 100)
+		{
+			ball->y = 565 + 5;
+			if (ball->gdy < 0)
+			{
+				ball->gdy *= -1;
+			}
+			if (ball->dy < 0)
+			{
+				ball->dy *= -1;
+			}
+		}
+		if (ball->y < 565 && ball->y > 565 - BALL_RADIUS - 10 && ball->x > 1450)
+		{
+			ball->y = 565 + 5;
+			if (ball->gdy < 0)
+			{
+				ball->gdy *= -1;
+			}
+			if (ball->dy < 0)
+			{
+				ball->dy *= -1;
+			}
+		}
+
 		if (ball->y > SCREEN_HEIGHT - 70 - BALL_RADIUS / 2)
 		{
 			ball->y = SCREEN_HEIGHT - 70 - BALL_RADIUS / 2 - 5;
@@ -225,6 +248,33 @@ void applyForcesBall(Opject *ball)
 				ball->dy *= -1;
 			}
 		}
+
+		if (ball->y > 330 - BALL_RADIUS - 10 && ball->y < 330 && ball->x < 100)
+		{
+			ball->y = 330 - BALL_RADIUS - 10 - 5;
+			if (ball->gdy > 0)
+			{
+				ball->gdy *= -1;
+			}
+			if (ball->dy > 0)
+			{
+				ball->dy *= -1;
+			}
+		}
+		if (ball->y > 330 - BALL_RADIUS - 10 && ball->y < 330 && ball->x > 1450)
+		{
+			ball->y = 330 - BALL_RADIUS - 10 - 5;
+			if (ball->gdy > 0)
+			{
+				ball->gdy *= -1;
+			}
+			if (ball->dy > 0)
+			{
+				ball->dy *= -1;
+			}
+		}
+
+
 	}
 
 	ball->x += ball->dx;

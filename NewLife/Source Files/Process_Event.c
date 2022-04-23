@@ -37,8 +37,8 @@ void goalCheer(SDL_Rect *goalRec, int H, int W, float dental, Opject *alCar1, Op
 	goalRec->h += H * rate*dental;
 	goalRec->w += W * rate*dental;
 	*delay += H * dental / 2.5f;
-	
-	if(*delay == H*dental / 2.5f)
+
+	if (*delay == H * dental / 2.5f)
 		Mix_PlayChannel(-1, soundEffectGoal, 0);
 
 	if (*delay >= H)
@@ -65,7 +65,7 @@ void goalCheer(SDL_Rect *goalRec, int H, int W, float dental, Opject *alCar1, Op
 	}
 }
 
-int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *alBall)
+int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *alBall, Opject *alNet1, Opject *alNet2)
 {
 	SDL_Event event;
 	int done = 0;
@@ -160,10 +160,11 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 	applyForces(alCar2);
 	applyForcesBall(alBall);
 
+
 	return done;
 }
 
-void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject *alBall, SDL_Texture *car1, SDL_Texture *car2, SDL_Texture *ball, SDL_Texture *background, SDL_Texture *goal, SDL_Rect goalRect, SDL_Texture *goalCount1, SDL_Texture *goalCount2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, SDL_Rect DgoalCount1, SDL_Rect DgoalCount2)
+void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject *alBall, SDL_Texture *car1, SDL_Texture *car2, SDL_Texture *ball, SDL_Texture *background, SDL_Texture *goal, SDL_Rect goalRect, SDL_Texture *goalCount1, SDL_Texture *goalCount2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, SDL_Rect DgoalCount1, SDL_Rect DgoalCount2, SDL_Texture *goalNet1, SDL_Texture *goalNet2, Opject *alNet1, Opject *alNet2)
 {
 
 	SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
@@ -186,5 +187,9 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 	SDL_RenderCopy(renderTarget, goalCount2, &SgoalCount2, &DgoalCount2);
 	SDL_RenderCopy(renderTarget, goal, NULL, &goalRect);
 
+	SDL_Rect rectGoalNet1 = { alNet1->x, alNet1->y, 50*2, 120*2 };
+	SDL_Rect rectGoalNet2 = { alNet2->x, alNet2->y, 50*2, 120*2 };
+	SDL_RenderCopy(renderTarget, goalNet1, NULL, &rectGoalNet1);
+	SDL_RenderCopy(renderTarget, goalNet2, NULL, &rectGoalNet2);
 	SDL_RenderPresent(renderTarget);
 }

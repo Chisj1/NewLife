@@ -20,6 +20,9 @@ int main(int argc, char *argv[])
 	static SDL_Texture *goal = NULL;
 	static SDL_Texture *goalCountTex1 = NULL;
 	static SDL_Texture *goalCountTex2 = NULL;
+	static SDL_Texture *goalNet1 = NULL;
+	static SDL_Texture *goalNet2 = NULL;
+
 	SDL_Window *window = NULL;
 	window = SDL_CreateWindow("Rocket League 2D", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	SDL_Renderer *renderTarget = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -34,17 +37,25 @@ int main(int argc, char *argv[])
 		printf("Error \n%s", Mix_GetError());
 
 
-	Opject alCar1, alCar2, alBall;
+	Opject alCar1, alCar2, alBall, alNet1, alNet2;
 
 	initOpject(&alCar1, 120, SCREEN_HEIGHT / 2 - CAR_HEIGHT, 90);
 	initOpject(&alCar2, SCREEN_WIDTH - 160 - CAR_WIDTH / 2, SCREEN_HEIGHT / 2 - CAR_HEIGHT, -90);
 	initOpject(&alBall, SCREEN_WIDTH / 2 - 40, SCREEN_HEIGHT / 2 - 40, 0);
+	//initOpject(&alNet1, 0, SCREEN_HEIGHT / 2 - 120, 0);
+	initOpject(&alNet1, 0, SCREEN_HEIGHT / 2 - 120, 0);
+	initOpject(&alNet2, SCREEN_WIDTH - 100, SCREEN_HEIGHT / 2 - 120, 0);
 
-	background = loadTexture(".\\Resource Files\\bg.png", renderTarget);
+
+	background = loadTexture(".\\Resource Files\\bgOri.png", renderTarget);
 	car1 = loadTexture(".\\Resource Files\\car1.png", renderTarget);
 	car2 = loadTexture(".\\Resource Files\\car2.png", renderTarget);
 	ball = loadTexture(".\\Resource Files\\ball.png", renderTarget);
 	goal = loadTexture(".\\Resource Files\\goal.png", renderTarget);
+	goalNet1 = loadTexture(".\\Resource Files\\goalNet.png", renderTarget);
+	goalNet2 = loadTexture(".\\Resource Files\\goalNet.png", renderTarget);
+
+
 	SDL_Rect goalRect;
 	SDL_QueryTexture(goal, NULL, NULL, &goalRect.w, &goalRect.h);
 	const int W = goalRect.w;
@@ -76,7 +87,7 @@ int main(int argc, char *argv[])
 	Mix_Music *bgm = Mix_LoadMUS(".\\Resource Files\\Music\\gameBGmusic.mp3");
 	if (bgm == NULL)
 		printf("Music Er");
-	Mix_VolumeMusic(MIX_MAX_VOLUME / 10);
+	Mix_VolumeMusic(MIX_MAX_VOLUME / 5);
 	Mix_Chunk *soundEffectGoal = Mix_LoadWAV(".\\Resource Files\\Music\\goal.wav");
 	if (soundEffectGoal == NULL)
 		printf("Eror SOund");
@@ -88,7 +99,7 @@ int main(int argc, char *argv[])
 		delta = (currTime - preTime) / 1000.0f;
 		if (!Mix_PlayingMusic())
 			Mix_PlayMusic(bgm, -1);
-		done = processEvents(window, &alCar1, &alCar2, &alBall);
+		done = processEvents(window, &alCar1, &alCar2, &alBall, &alNet1, &alNet2);
 
 		if (isGoal(&alBall))
 		{
@@ -97,7 +108,7 @@ int main(int argc, char *argv[])
 			
 		goalCounting(goalCount1, goalCount2, &SgoalCount1, &SgoalCount2, 48);
 
-		doRender(renderTarget, &alCar1, &alCar2, &alBall, car1, car2, ball, background, goal, goalRect, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, DgoalCount1, DgoalCount2);
+		doRender(renderTarget, &alCar1, &alCar2, &alBall, car1, car2, ball, background, goal, goalRect, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, DgoalCount1, DgoalCount2, goalNet1, goalNet2, &alNet1, &alNet2);
 		SDL_Delay(10);
 	}
 
@@ -117,6 +128,8 @@ int main(int argc, char *argv[])
 	car2 = NULL;
 	background = NULL;
 	ball = NULL;
+	goalNet1 = NULL;
+	goalNet2 = NULL;
 	IMG_Quit();
 	SDL_Quit();
 	return 0;
