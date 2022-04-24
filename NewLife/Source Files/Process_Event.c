@@ -65,7 +65,7 @@ void goalCheer(SDL_Rect *goalRec, int H, int W, float dental, Opject *alCar1, Op
 	}
 }
 
-int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *alBall, Opject *alNet1, Opject *alNet2)
+int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *alBall, Opject *alNet1, Opject *alNet2, itemOpject *item)
 {
 	SDL_Event event;
 	int done = 0;
@@ -103,53 +103,59 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 	}
 
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
-	if (state[SDL_SCANCODE_A])
+	
+	if (item->car2_touch == 0)						// nếu xe 2 dẫm vào item sleep thì xe 1 k được chạy 
 	{
-		alCar1->ang -= angRate;
-	}
-	if (state[SDL_SCANCODE_D])
-	{
-		alCar1->ang += angRate;
-	}
-	if (state[SDL_SCANCODE_W])
-	{
-		float cdx = sinf(radiansFromDegrees(alCar1->ang))*acc*0.1f;
-		float cdy = -cosf(radiansFromDegrees(alCar1->ang))*acc*0.1f;
+		if (state[SDL_SCANCODE_A])
+		{
+			alCar1->ang -= angRate;
+		}
+		if (state[SDL_SCANCODE_D])
+		{
+			alCar1->ang += angRate;
+		}
+		if (state[SDL_SCANCODE_W])
+		{
+			float cdx = sinf(radiansFromDegrees(alCar1->ang)) * acc * 0.1f;
+			float cdy = -cosf(radiansFromDegrees(alCar1->ang)) * acc * 0.1f;
 
-		alCar1->dx += cdx;
-		alCar1->dy += cdy;
+			alCar1->dx += cdx;
+			alCar1->dy += cdy;
+		}
+		if (state[SDL_SCANCODE_S])
+		{
+			float cdx = sinf(radiansFromDegrees(alCar1->ang)) * 0.1f;
+			float cdy = -cosf(radiansFromDegrees(alCar1->ang)) * 0.1f;
+			alCar1->dx += -cdx;
+			alCar1->dy += -cdy;
+		}
 	}
-	if (state[SDL_SCANCODE_S])
+	if (item->car1_touch == 0)						// nếu xe 1 dẫm vào item sleep thì xe 2 k được chạy 
 	{
-		float cdx = sinf(radiansFromDegrees(alCar1->ang))*0.1f;
-		float cdy = -cosf(radiansFromDegrees(alCar1->ang))*0.1f;
-		alCar1->dx += -cdx;
-		alCar1->dy += -cdy;
-	}
+		if (state[SDL_SCANCODE_LEFT])
+		{
+			alCar2->ang -= angRate;
+		}
+		if (state[SDL_SCANCODE_RIGHT])
+		{
+			alCar2->ang += angRate;
+		}
+		if (state[SDL_SCANCODE_UP])
+		{
+			float cdx = sinf(radiansFromDegrees(alCar2->ang)) * acc * 0.1f;
+			float cdy = -cosf(radiansFromDegrees(alCar2->ang)) * acc * 0.1f;
 
-	if (state[SDL_SCANCODE_LEFT])
-	{
-		alCar2->ang -= angRate;
-	}
-	if (state[SDL_SCANCODE_RIGHT])
-	{
-		alCar2->ang += angRate;
-	}
-	if (state[SDL_SCANCODE_UP])
-	{
-		float cdx = sinf(radiansFromDegrees(alCar2->ang))*acc*0.1f;
-		float cdy = -cosf(radiansFromDegrees(alCar2->ang))*acc*0.1f;
+			alCar2->dx += cdx;
+			alCar2->dy += cdy;
+		}
+		if (state[SDL_SCANCODE_DOWN])
+		{
+			float cdx = sinf(radiansFromDegrees(alCar2->ang)) * 0.1f;
+			float cdy = -cosf(radiansFromDegrees(alCar2->ang)) * 0.1f;
 
-		alCar2->dx += cdx;
-		alCar2->dy += cdy;
-	}
-	if (state[SDL_SCANCODE_DOWN])
-	{
-		float cdx = sinf(radiansFromDegrees(alCar2->ang))*0.1f;
-		float cdy = -cosf(radiansFromDegrees(alCar2->ang))*0.1f;
-
-		alCar2->dx += -cdx;
-		alCar2->dy += -cdy;
+			alCar2->dx += -cdx;
+			alCar2->dy += -cdy;
+		}
 	}
 
 
@@ -164,7 +170,7 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 	return done;
 }
 
-void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject *alBall, SDL_Texture *car1, SDL_Texture *car2, SDL_Texture *ball, SDL_Texture *background, SDL_Texture *goal, SDL_Rect goalRect, SDL_Texture *goalCount1, SDL_Texture *goalCount2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, SDL_Rect DgoalCount1, SDL_Rect DgoalCount2, SDL_Texture *goalNet1, SDL_Texture *goalNet2, Opject *alNet1, Opject *alNet2)
+void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject *alBall, SDL_Texture *car1, SDL_Texture *car2, SDL_Texture *ball, SDL_Texture *background, SDL_Texture *goal, SDL_Rect goalRect, SDL_Texture *goalCount1, SDL_Texture *goalCount2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, SDL_Rect DgoalCount1, SDL_Rect DgoalCount2, SDL_Texture *goalNet1, SDL_Texture *goalNet2, Opject *alNet1, Opject *alNet2, itemOpject *item)
 {
 
 	SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
@@ -191,5 +197,69 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 	SDL_Rect rectGoalNet2 = { alNet2->x, alNet2->y, 50*2, 120*2 };
 	SDL_RenderCopy(renderTarget, goalNet1, NULL, &rectGoalNet1);
 	SDL_RenderCopy(renderTarget, goalNet2, NULL, &rectGoalNet2);
+	
+	SDL_RenderCopy(renderTarget, item->texture, &item->src, &item->drc);				// xuất ra màn hình item 
+	
 	SDL_RenderPresent(renderTarget);
+}
+
+// tạo mảng random vị trí 
+void random_pos(int* pos, int left, int right)
+{
+	for (int i = 0; i < sizeof(pos); i++) {
+		pos[i] = left + rand() % (right - left);
+	}
+}
+
+// khởi tạo random  vị trí item 
+void init_itemRect(SDL_Rect* itemRect, int* posX, int* posY, int realTime)
+{
+	static int i = 0;
+	i = (realTime / 10)  ;
+	itemRect->x = posX[i];
+	itemRect->y = posY[i];
+	itemRect->w = 100;
+	itemRect->h = 100;
+}
+
+// xóa vị trí xuất hiện của item 
+void destroy_itemRect(SDL_Rect* itemRect) 
+{
+	itemRect->x = 0;
+	itemRect->y = 0;
+	itemRect->w = 0;
+	itemRect->h = 0;
+}
+
+void item_event(itemOpject *item,Opject *alCar1,Opject *alCar2,int startTime,int endTime, int realTime, int *item_posX, int *item_posY)
+{
+	// sau mỗi 30 s khởi tạo item tại startTime và sau endTime tự động xóa item 
+	if ((realTime / 10) % 3 == 0 && realTime % 30 >= startTime && realTime % 30 <= endTime && realTime / 10 > 0) {
+		if (item->car1_touch == 0 && item->car2_touch == 0)
+			init_itemRect(&item->drc, item_posX, item_posY, realTime);
+	}
+	else {
+		destroy_itemRect(&item->drc);
+	}
+
+	// nếu item được khởi tạo thì xét vị trí của các xe 
+	if (item->drc.x != 0 && item->drc.y != 0)
+	{
+		if (alCar1->x >= item->drc.x && alCar1->x <= item->drc.x + 100 && alCar1->y >= item->drc.y && alCar1->y <= item->drc.y + 100) {
+			destroy_itemRect(&item->drc);
+			item->car1_touch = 1;
+			item->touch_time = realTime;
+		}
+		if (alCar2->x >= item->drc.x && alCar2->x <= item->drc.x + 100 && alCar2->y >= item->drc.y && alCar2->y <= item->drc.y + 100) {
+			destroy_itemRect(&item->drc);
+			item->car2_touch = 1;
+			item->touch_time = realTime;
+		}
+	}
+	
+	// sau 5s xóa bỏ hiệu ứng item 
+	if (realTime >= item->touch_time + 5) {
+		item->car1_touch = 0;
+		item->car2_touch = 0;
+	}
 }
