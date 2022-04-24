@@ -9,10 +9,12 @@
 #include"..\Header Files\Collision.h"
 #include"..\Header Files\Process_Event.h"
 #include "SDL_mixer.h"
-
+#include <stdlib.h>
+#include <time.h>
 
 int main(int argc, char *argv[])
 {
+	srand((int)time(NULL));
 	static SDL_Texture *background = NULL;
 	static SDL_Texture *car1 = NULL;
 	static SDL_Texture *car2 = NULL;
@@ -72,12 +74,25 @@ int main(int argc, char *argv[])
 	SDL_Rect SgoalCount2 = { 0, 0, 48 , 48 };
 	SDL_Rect DgoalCount1 = { 450, 20, 240, 240 };
 	SDL_Rect DgoalCount2 = { 900, 20, 240, 240 };
+	
+	itemOpject sleep;
+	sleep.texture = loadTexture(".\\Resource Files\\Goal\\itemSleep.bmp", renderTarget);
+	sleep.src.x = 0; sleep.src.y = 0; sleep.src.h = 50; sleep.src.w = 50;
+	sleep.drc.x = 0; sleep.drc.y = 0; sleep.drc.h = 0; sleep.drc.w = 0;
+	sleep.car1_touch = 0;
+	sleep.car2_touch = 0;
+	sleep.touch_time = 0;
+	int item_posX[100],item_posY[100],sleep_press = 0;
+	random_pos(item_posX, 150, SCREEN_WIDTH - 150);
+	random_pos(item_posY, 100, SCREEN_HEIGHT - 100);
+	
 	int stop = 0;
 
 	int done = 0;
 
 	float currTime = 0;
 	float preTime = 0;
+	int realTime = 0;
 	float delta = 0;
 	float delay = 0;
 
@@ -97,6 +112,7 @@ int main(int argc, char *argv[])
 		preTime = currTime;
 		currTime = (float) SDL_GetTicks();
 		delta = (currTime - preTime) / 1000.0f;
+		realTime = (int) currTime / 1000;
 		if (!Mix_PlayingMusic())
 			Mix_PlayMusic(bgm, -1);
 		done = processEvents(window, &alCar1, &alCar2, &alBall, &alNet1, &alNet2);
@@ -107,6 +123,8 @@ int main(int argc, char *argv[])
 		}
 			
 		goalCounting(goalCount1, goalCount2, &SgoalCount1, &SgoalCount2, 48);
+		
+		item_event(&sleep, &alCar1, &alCar2, 0, 7, realTime, item_posX, item_posY);			
 
 		doRender(renderTarget, &alCar1, &alCar2, &alBall, car1, car2, ball, background, goal, goalRect, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, DgoalCount1, DgoalCount2, goalNet1, goalNet2, &alNet1, &alNet2);
 		SDL_Delay(10);
