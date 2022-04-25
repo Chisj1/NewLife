@@ -1,9 +1,9 @@
-#include"..\Header Files\Define.h"
+﻿#include"..\Header Files\Define.h"
 #include"..\Header Files\WindowSDL.h"
 #include<SDL.h>
 #include <SDL_image.h>
 
-
+//Tải hình ảnh
 SDL_Texture * loadTexture(const char * path, SDL_Renderer * renderTarget)
 {
 	SDL_Texture *texture = NULL;

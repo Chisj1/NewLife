@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include<SDL.h>
 #define SCREEN_WIDTH (1600)
 #define SCREEN_HEIGHT (900)
@@ -8,9 +8,9 @@
 
 typedef struct
 {
-	float x, y;
-	float dx, dy;
-	float gdx, gdy;
-	float ang;
+	float x, y;//Tọa độ
+	float dx, dy;//Vector vận tốc
+	float gdx, gdy;//Vector lực
+	float ang;//Góc
 } Opject;
 
