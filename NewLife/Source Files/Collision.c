@@ -149,14 +149,14 @@ void applyForces(Opject *car)
 
 int isGoal(Opject *ball)
 {
-	if ((ball->y >= 330 && ball->y <= 560))
+	if ((ball->y >= 330 - BALL_RADIUS/2 && ball->y <= 560))
 	{
-		if (ball->x <= 25)
+		if (ball->x <= 50)
 		{
 			return 1;
 		}
 
-		else if (ball->x >= 1500)
+		else if (ball->x >= SCREEN_WIDTH - 90 - BALL_RADIUS / 2)
 		{
 			return 1;
 		}
@@ -170,9 +170,9 @@ void applyForcesBall(Opject *ball)
 	const float accD = 0.95f;
 	const float accGd = 0.97f;
 
-	if (ball->y >= 330 && ball->y <= 560)
+	if (ball->y >= 330 - BALL_RADIUS && ball->y <= 560)
 	{
-		if (ball->x <= 25)
+		if (ball->x <= 50)
 		{
 			ball->dx *= accD * 0.1f;
 			ball->dy *= accD * 0.1f;
@@ -180,7 +180,7 @@ void applyForcesBall(Opject *ball)
 			ball->gdy *= accGd * 0.1f;
 
 		}
-		else if (ball->x >= 1500)
+		else if (ball->x >= SCREEN_WIDTH - 90 - BALL_RADIUS / 2)
 		{
 			ball->dx *= accD * 0.1f;
 			ball->dy *= accD * 0.1f;
@@ -196,11 +196,11 @@ void applyForcesBall(Opject *ball)
 			ball->x = 42 + 5;
 			if (ball->gdx < 0)
 			{
-				ball->gdx *= -1;
+				ball->gdx *= -0.6f;
 			}
 			if (ball->dx < 0)
 			{
-				ball->dx *= -1;
+				ball->dx *= -0.7f;
 			}
 		}
 		if (ball->x > SCREEN_WIDTH - 90 - BALL_RADIUS / 2)
@@ -208,11 +208,11 @@ void applyForcesBall(Opject *ball)
 			ball->x = SCREEN_WIDTH - 90 - BALL_RADIUS / 2 - 5;
 			if (ball->gdx > 0)
 			{
-				ball->gdx *= -1;
+				ball->gdx *= -0.6f;
 			}
 			if (ball->dx > 0)
 			{
-				ball->dx *= -1;
+				ball->dx *= -0.7f;
 			}
 		}
 		if (ball->y < 18)
@@ -220,11 +220,11 @@ void applyForcesBall(Opject *ball)
 			ball->y = 18 + 5;
 			if (ball->gdy < 0)
 			{
-				ball->gdy *= -1;
+				ball->gdy *= -0.6f;
 			}
 			if (ball->dy < 0)
 			{
-				ball->dy *= -1;
+				ball->dy *= -0.7f;
 			}
 		}
 		if (ball->y < 565 && ball->y > 565 - BALL_RADIUS - 10 && ball->x < 100)//Khung thành bên trái phía dưới
@@ -232,11 +232,11 @@ void applyForcesBall(Opject *ball)
 			ball->y = 565 + 5;
 			if (ball->gdy < 0)
 			{
-				ball->gdy *= -1;
+				ball->gdy *= -0.6f;
 			}
 			if (ball->dy < 0)
 			{
-				ball->dy *= -1;
+				ball->dy *= -0.7f;
 			}
 		}
 		if (ball->y < 565 && ball->y > 565 - BALL_RADIUS - 10 && ball->x > 1450)//Khung thành bên phải phía dưới
@@ -244,11 +244,11 @@ void applyForcesBall(Opject *ball)
 			ball->y = 565 + 5;
 			if (ball->gdy < 0)
 			{
-				ball->gdy *= -1;
+				ball->gdy *= -0.6f;
 			}
 			if (ball->dy < 0)
 			{
-				ball->dy *= -1;
+				ball->dy *= -0.7f;
 			}
 		}
 
@@ -257,36 +257,36 @@ void applyForcesBall(Opject *ball)
 			ball->y = SCREEN_HEIGHT - 70 - BALL_RADIUS / 2 - 5;
 			if (ball->gdy > 0)
 			{
-				ball->gdy *= -1;
+				ball->gdy *= -0.6f;
 			}
 			if (ball->dy > 0)
 			{
-				ball->dy *= -1;
+				ball->dy *= -0.7f;
 			}
 		}
 
-		if (ball->y > 330 - BALL_RADIUS - 10 && ball->y < 330 && ball->x < 100) //Khung thành bên trái phía trên
+		if (ball->y > 330 - BALL_RADIUS - 10 && ball->y < 330 - BALL_RADIUS && ball->x < 100) //Khung thành bên trái phía trên
 		{
 			ball->y = 330 - BALL_RADIUS - 10 - 5;
 			if (ball->gdy > 0)
 			{
-				ball->gdy *= -1;
+				ball->gdy *= -0.6f;
 			}
 			if (ball->dy > 0)
 			{
-				ball->dy *= -1;
+				ball->dy *= -0.7f;
 			}
 		}
-		if (ball->y > 330 - BALL_RADIUS - 10 && ball->y < 330 && ball->x > 1450)// Khung thành bên phải phía dưới
+		if (ball->y > 330 - BALL_RADIUS - 10 && ball->y < 330 - BALL_RADIUS && ball->x > 1450)// Khung thành bên phải phía trên
 		{
 			ball->y = 330 - BALL_RADIUS - 10 - 5;
 			if (ball->gdy > 0)
 			{
-				ball->gdy *= -1;
+				ball->gdy *= -0.6f;
 			}
 			if (ball->dy > 0)
 			{
-				ball->dy *= -1;
+				ball->dy *= -0.7f;
 			}
 		}
 
