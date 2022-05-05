@@ -14,6 +14,7 @@
 
 //TODO CHỉnh sửa va chạm giữa bóng và GOAL
 //TODO merge code với 2 ông kia
+//Test
 int main(int argc, char *argv[])
 {
 	//Định hình các texture
