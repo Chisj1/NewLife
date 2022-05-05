@@ -46,14 +46,14 @@ void goalCheer(SDL_Rect *goalRec, int H, int W, float dental, Opject *alCar1, Op
 	if (*delay >= H) //Hoãn 1 thời gian sau khi ghi bàn rồi reset bàn chơi
 	{
 		//Đếm số bàn ghi được của mỗi đội
-		if (alBall->x <= 25)
+		if (alBall->x <= 50)
 		{
 			*goalCount2 += 1;
 			if (*goalCount2 == 4)
 				*goalCount2 = 0;
 		}
 
-		else if (alBall->x >= 1500)
+		else if (alBall->x >= SCREEN_WIDTH - 90 - BALL_RADIUS / 2 - 10)
 		{
 			*goalCount1 += 1;
 			if (*goalCount1 == 4)
@@ -170,9 +170,11 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 	carCollision(alCar1, alCar2);
 	BallCollision(alCar1, alBall);
 	BallCollision(alCar2, alBall);
+	NetCollision(alBall, alNet1);
+	NetCollision(alBall, alNet2);
 	applyForces(alCar1);
 	applyForces(alCar2);
-	applyForcesBall(alBall);
+	applyForcesBall(alBall, alNet1);
 
 
 	return done;
@@ -180,7 +182,7 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 
 
 //Render : Xuất mọi thứ lên trên màn hình
-void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject *alBall, SDL_Texture *car1, SDL_Texture *car2, SDL_Texture *ball, SDL_Texture *background, SDL_Texture *goal, SDL_Rect goalRect, SDL_Texture *goalCount1, SDL_Texture *goalCount2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, SDL_Rect DgoalCount1, SDL_Rect DgoalCount2, SDL_Texture *goalNet1, SDL_Texture *goalNet2, Opject *alNet1, Opject *alNet2)
+void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject *alBall,SDL_Texture *ruler, SDL_Texture *car1, SDL_Texture *car2, SDL_Texture *ball, SDL_Texture *background, SDL_Texture *goal, SDL_Rect goalRect, SDL_Texture *goalCount1, SDL_Texture *goalCount2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, SDL_Rect DgoalCount1, SDL_Rect DgoalCount2, SDL_Texture *goalNet1, SDL_Texture *goalNet2, Opject *alNet1, Opject *alNet2)
 {
 	
 	SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
@@ -211,10 +213,16 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 	SDL_RenderCopy(renderTarget, goal, NULL, &goalRect);
 
 	//Render 2 cái lưới, nhưng mà thực sự ko cần thiết lắm
-	SDL_Rect rectGoalNet1 = { alNet1->x, alNet1->y, 50*2, 120*2 };
-	SDL_Rect rectGoalNet2 = { alNet2->x, alNet2->y, 50*2, 120*2 };
+	SDL_Rect rectGoalNet1 = { alNet1->x, alNet1->y, GOAL_WIDTH*2.5, GOAL_HEIGHT*2.5 };
+	SDL_Rect rectGoalNet2 = { alNet2->x, alNet2->y, GOAL_WIDTH*2.5, GOAL_HEIGHT*2.5 };
 	SDL_RenderCopy(renderTarget, goalNet1, NULL, &rectGoalNet1);
 	SDL_RenderCopy(renderTarget, goalNet2, NULL, &rectGoalNet2);
+
+
+	//Thuowsc ker
+	SDL_Rect rulerRect = { SCREEN_WIDTH - GOAL_WIDTH * 2.5, SCREEN_HEIGHT / 2 + GOAL_HEIGHT*1.2, 200, 5 };
+	SDL_RenderCopy(renderTarget, ruler, NULL, &rulerRect);
+
 
 	//Xuất mọi thứ 
 	SDL_RenderPresent(renderTarget);

@@ -9,11 +9,67 @@ int collide2d(float x1, float y1, float x2, float y2, float wt1, float ht1, floa
 	return (!((x1 > (x2 + wt2)) || (x2 > (x1 + wt1)) || (y1 > (y2 + ht2)) || (y2 > (y1 + ht1))));
 }
 
+void NetCollision(Opject *ball, Opject *net)
+{
+
+	const float wBall = BALL_RADIUS, hBall = BALL_RADIUS;
+	const float wNet = GOAL_WIDTH * 2.5, hNet = GOAL_HEIGHT * 2.5;
+	const float accD = 0.95f;
+	const float accGd = 0.97f;
+	if (ball->y >= SCREEN_HEIGHT / 2 - GOAL_HEIGHT * 1.27 - 25 && ball->y <= SCREEN_HEIGHT / 2 + GOAL_HEIGHT * 1.2 - BALL_RADIUS + 15)
+	{
+		if (ball->x <= 50)
+		{
+			ball->dx *= accD * 0.1f;
+			ball->dy *= accD * 0.1f;
+			ball->gdx *= accGd * 0.1f;
+			ball->gdy *= accGd * 0.1f;
+
+		}
+		else if (ball->x >= SCREEN_WIDTH - 90 - BALL_RADIUS / 2)
+		{
+			ball->dx *= accD * 0.1f;
+			ball->dy *= accD * 0.1f;
+			ball->gdx *= accGd * 0.1f;
+			ball->gdy *= accGd * 0.1f;
+
+		}
+	}
+	if (collide2d(ball->x, ball->y, net->x, net->y, wBall, hBall, wNet, hNet))
+	{
+
+		if (ball->y < 450)
+		{
+			if (ball->gdy > 0)
+			{
+				ball->gdy *= -0.6f;
+			}
+			if (ball->dy > 0)
+			{
+				ball->dy *= -0.7f;
+			}
+		}
+		else
+		{
+			if (ball->gdy < 0)
+			{
+				ball->gdy *= -0.6f;
+			}
+			if (ball->dy < 0)
+			{
+				ball->dy *= -0.7f;
+			}
+		}
+
+	}
+
+}
+
 //Xử lý va chạm giữa bóng và xe, coi m Xe = 4 m bóng
 void BallCollision(Opject *car, Opject *ball)
 {
 	//Gán giá trị 2 chiều xe và bóng
-	const float wBall = BALL_RADIUS, hBall = BALL_RADIUS;
+	const float wBall = BALL_RADIUS + 15, hBall = BALL_RADIUS + 15;
 	const float wCar = CAR_WIDTH * 2, hCar = CAR_HEIGHT * 2;
 
 
@@ -34,7 +90,7 @@ void BallCollision(Opject *car, Opject *ball)
 		normalize(&vx, &vy);
 
 		//Khi đâm vào xe sẽ bị lùi lại còn bóng sẽ tiến lên = 4 lần xe lùi lại
-		
+
 		car->gdx += -vx * carSpeed;
 		car->gdy += -vy * carSpeed;
 		ball->gdx += vx * carSpeed * 4.0f;
@@ -85,7 +141,7 @@ void applyForces(Opject *car)
 	{
 		//Khi xe đến điểm giới hạn sẽ bị bật lại
 		car->x = 60 + 5;
-		
+
 		//Vector vận tốc và lực sẽ bị đảo chiều sau va chạm
 		if (car->gdx < 0)
 		{
@@ -149,14 +205,14 @@ void applyForces(Opject *car)
 
 int isGoal(Opject *ball)
 {
-	if ((ball->y >= 330 - BALL_RADIUS/2 && ball->y <= 560))
+	if ((ball->y >= SCREEN_HEIGHT / 2 - GOAL_HEIGHT * 1.27 - 25 && ball->y <= SCREEN_HEIGHT / 2 + GOAL_HEIGHT * 1.2 - BALL_RADIUS + 15))
 	{
 		if (ball->x <= 50)
 		{
 			return 1;
 		}
 
-		else if (ball->x >= SCREEN_WIDTH - 90 - BALL_RADIUS / 2)
+		else if (ball->x >= SCREEN_WIDTH - 90 - BALL_RADIUS / 2 - 10)
 		{
 			return 1;
 		}
@@ -165,133 +221,113 @@ int isGoal(Opject *ball)
 	return 0;
 }
 
-void applyForcesBall(Opject *ball)
+void applyForcesBall(Opject *ball, Opject *net)
 {
 	const float accD = 0.95f;
 	const float accGd = 0.97f;
 
-	if (ball->y >= 330 - BALL_RADIUS && ball->y <= 560)
+	if (ball->x < 42)
 	{
-		if (ball->x <= 50)
+		ball->x = 42 + 5;
+		if (ball->gdx < 0)
 		{
-			ball->dx *= accD * 0.1f;
-			ball->dy *= accD * 0.1f;
-			ball->gdx *= accGd * 0.1f;
-			ball->gdy *= accGd * 0.1f;
-
+			ball->gdx *= -0.6f;
 		}
-		else if (ball->x >= SCREEN_WIDTH - 90 - BALL_RADIUS / 2)
+		if (ball->dx < 0)
 		{
-			ball->dx *= accD * 0.1f;
-			ball->dy *= accD * 0.1f;
-			ball->gdx *= accGd * 0.1f;
-			ball->gdy *= accGd * 0.1f;
-
+			ball->dx *= -0.7f;
 		}
 	}
-	else
+	if (ball->x > SCREEN_WIDTH - 90 - BALL_RADIUS / 2)
 	{
-		if (ball->x < 42)
+		ball->x = SCREEN_WIDTH - 90 - BALL_RADIUS / 2 - 5;
+		if (ball->gdx > 0)
 		{
-			ball->x = 42 + 5;
-			if (ball->gdx < 0)
-			{
-				ball->gdx *= -0.6f;
-			}
-			if (ball->dx < 0)
-			{
-				ball->dx *= -0.7f;
-			}
+			ball->gdx *= -0.6f;
 		}
-		if (ball->x > SCREEN_WIDTH - 90 - BALL_RADIUS / 2)
+		if (ball->dx > 0)
 		{
-			ball->x = SCREEN_WIDTH - 90 - BALL_RADIUS / 2 - 5;
-			if (ball->gdx > 0)
-			{
-				ball->gdx *= -0.6f;
-			}
-			if (ball->dx > 0)
-			{
-				ball->dx *= -0.7f;
-			}
+			ball->dx *= -0.7f;
 		}
-		if (ball->y < 18)
-		{
-			ball->y = 18 + 5;
-			if (ball->gdy < 0)
-			{
-				ball->gdy *= -0.6f;
-			}
-			if (ball->dy < 0)
-			{
-				ball->dy *= -0.7f;
-			}
-		}
-		if (ball->y < 565 && ball->y > 565 - BALL_RADIUS - 10 && ball->x < 100)//Khung thành bên trái phía dưới
-		{
-			ball->y = 565 + 5;
-			if (ball->gdy < 0)
-			{
-				ball->gdy *= -0.6f;
-			}
-			if (ball->dy < 0)
-			{
-				ball->dy *= -0.7f;
-			}
-		}
-		if (ball->y < 565 && ball->y > 565 - BALL_RADIUS - 10 && ball->x > 1450)//Khung thành bên phải phía dưới
-		{
-			ball->y = 565 + 5;
-			if (ball->gdy < 0)
-			{
-				ball->gdy *= -0.6f;
-			}
-			if (ball->dy < 0)
-			{
-				ball->dy *= -0.7f;
-			}
-		}
-
-		if (ball->y > SCREEN_HEIGHT - 70 - BALL_RADIUS / 2)
-		{
-			ball->y = SCREEN_HEIGHT - 70 - BALL_RADIUS / 2 - 5;
-			if (ball->gdy > 0)
-			{
-				ball->gdy *= -0.6f;
-			}
-			if (ball->dy > 0)
-			{
-				ball->dy *= -0.7f;
-			}
-		}
-
-		if (ball->y > 330 - BALL_RADIUS - 10 && ball->y < 330 - BALL_RADIUS && ball->x < 100) //Khung thành bên trái phía trên
-		{
-			ball->y = 330 - BALL_RADIUS - 10 - 5;
-			if (ball->gdy > 0)
-			{
-				ball->gdy *= -0.6f;
-			}
-			if (ball->dy > 0)
-			{
-				ball->dy *= -0.7f;
-			}
-		}
-		if (ball->y > 330 - BALL_RADIUS - 10 && ball->y < 330 - BALL_RADIUS && ball->x > 1450)// Khung thành bên phải phía trên
-		{
-			ball->y = 330 - BALL_RADIUS - 10 - 5;
-			if (ball->gdy > 0)
-			{
-				ball->gdy *= -0.6f;
-			}
-			if (ball->dy > 0)
-			{
-				ball->dy *= -0.7f;
-			}
-		}
-
-
 	}
+	if (ball->y < 18)
+	{
+		ball->y = 18 + 5;
+		if (ball->gdy < 0)
+		{
+			ball->gdy *= -0.6f;
+		}
+		if (ball->dy < 0)
+		{
+			ball->dy *= -0.7f;
+		}
+	}
+	// Dùng phương pháp mới để xử lý nên tạm thời cmt lại
+	/*if (ball->y < 565 && ball->y > 565 - BALL_RADIUS - 10 && ball->x < 100)//Khung thành bên trái phía dưới
+	{
+		ball->y = 565 + 5;
+		if (ball->gdy < 0)
+		{
+			ball->gdy *= -0.6f;
+		}
+		if (ball->dy < 0)
+		{
+			ball->dy *= -0.7f;
+		}
+	}
+	if (ball->y < 565 && ball->y > 565 - BALL_RADIUS - 10 && ball->x > 1450)//Khung thành bên phải phía dưới
+	{
+		ball->y = 565 + 5;
+		if (ball->gdy < 0)
+		{
+			ball->gdy *= -0.6f;
+		}
+		if (ball->dy < 0)
+		{
+			ball->dy *= -0.7f;
+		}
+	}*/
+
+	if (ball->y > SCREEN_HEIGHT - 70 - BALL_RADIUS / 2)
+	{
+		ball->y = SCREEN_HEIGHT - 70 - BALL_RADIUS / 2 - 5;
+		if (ball->gdy > 0)
+		{
+			ball->gdy *= -0.6f;
+		}
+		if (ball->dy > 0)
+		{
+			ball->dy *= -0.7f;
+		}
+	}
+
+	// Dùng phương pháp mới để xử lý nên tạm thời cmt lại
+
+	/*if (ball->y > 330 - BALL_RADIUS - 10 && ball->y < 330 - BALL_RADIUS && ball->x < 100) //Khung thành bên trái phía trên
+	{
+		ball->y = 330 - BALL_RADIUS - 10 - 5;
+		if (ball->gdy > 0)
+		{
+			ball->gdy *= -0.6f;
+		}
+		if (ball->dy > 0)
+		{
+			ball->dy *= -0.7f;
+		}
+	}
+	if (ball->y > 330 - BALL_RADIUS - 10 && ball->y < 330 - BALL_RADIUS && ball->x > 1450)// Khung thành bên phải phía trên
+	{
+		ball->y = 330 - BALL_RADIUS - 10 - 5;
+		if (ball->gdy > 0)
+		{
+			ball->gdy *= -0.6f;
+		}
+		if (ball->dy > 0)
+		{
+			ball->dy *= -0.7f;
+		}
+	}
+	*/
 
 	ball->x += ball->dx;
 	ball->y += ball->dy;

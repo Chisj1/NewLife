@@ -151,6 +151,7 @@
     <Image Include="Resource Files\Goal\g2.png" />
     <Image Include="Resource Files\Goal\g3.png" />
     <Image Include="Resource Files\Goal\goalCount.png" />
+    <Image Include="Ruler.png" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Collision.c" />

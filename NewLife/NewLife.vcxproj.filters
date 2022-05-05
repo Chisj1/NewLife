@@ -74,6 +74,9 @@
     <Image Include="Resource Files\goalNet.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Ruler.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Collision.c">

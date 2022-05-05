@@ -10,7 +10,8 @@
 #include"..\Header Files\Process_Event.h"
 #include "SDL_mixer.h"
 
-
+//TODO CHỉnh sửa va chạm giữa bóng và GOAL
+//TODO merge code với 2 ông kia
 int main(int argc, char *argv[])
 {
 	//Định hình các texture
@@ -23,7 +24,7 @@ int main(int argc, char *argv[])
 	static SDL_Texture *goalCountTex2 = NULL;
 	static SDL_Texture *goalNet1 = NULL;
 	static SDL_Texture *goalNet2 = NULL;
-
+	static SDL_Texture *ruler = NULL;
 	//Khởi tạo màn hình chính
 	SDL_Window *window = NULL;
 	window = SDL_CreateWindow("Rocket League 2D", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
@@ -47,8 +48,8 @@ int main(int argc, char *argv[])
 	initOpject(&alCar1, 120, SCREEN_HEIGHT / 2 - CAR_HEIGHT, 90);
 	initOpject(&alCar2, SCREEN_WIDTH - 160 - CAR_WIDTH / 2, SCREEN_HEIGHT / 2 - CAR_HEIGHT, -90);
 	initOpject(&alBall, SCREEN_WIDTH / 2 - 40, SCREEN_HEIGHT / 2 - 40, 0);
-	initOpject(&alNet1, 0, SCREEN_HEIGHT / 2 - 120, 0);
-	initOpject(&alNet2, SCREEN_WIDTH - 100, SCREEN_HEIGHT / 2 - 120, 0);
+	initOpject(&alNet1, 0, SCREEN_HEIGHT / 2 - GOAL_HEIGHT * 1.27, 0);
+	initOpject(&alNet2, SCREEN_WIDTH - GOAL_WIDTH * 2.5, SCREEN_HEIGHT / 2 - GOAL_HEIGHT * 1.27, 0);
 
 
 	//Tải hình ảnh cho texture
@@ -59,6 +60,13 @@ int main(int argc, char *argv[])
 	goal = loadTexture(".\\Resource Files\\goal.png", renderTarget);
 	goalNet1 = loadTexture(".\\Resource Files\\goalNet.png", renderTarget);
 	goalNet2 = loadTexture(".\\Resource Files\\goalNet.png", renderTarget);
+
+
+	SDL_Rect rulerRect;
+	
+	ruler = loadTexture("Ruler.png", renderTarget);
+	if (ruler == NULL)
+		printf("Error Ruler");
 
 
 	//Hình ảnh GOAL ăn mừng
@@ -105,9 +113,9 @@ int main(int argc, char *argv[])
 	{
 
 		preTime = currTime;
-		currTime = (float) SDL_GetTicks();
+		currTime = (float)SDL_GetTicks();
 		delta = (currTime - preTime) / 1000.0f;
-	
+
 		//Chơi nhạc BG
 		if (!Mix_PlayingMusic())
 			Mix_PlayMusic(bgm, -1);
@@ -121,9 +129,10 @@ int main(int argc, char *argv[])
 
 		//Tính điểm bàn thắng	
 		goalCounting(goalCount1, goalCount2, &SgoalCount1, &SgoalCount2, 48);
-
+		
 		//Render tất cả mọi thứ
-		doRender(renderTarget, &alCar1, &alCar2, &alBall, car1, car2, ball, background, goal, goalRect, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, DgoalCount1, DgoalCount2, goalNet1, goalNet2, &alNet1, &alNet2);
+		doRender(renderTarget, &alCar1, &alCar2, &alBall, ruler, car1, car2, ball, background, goal, goalRect, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, DgoalCount1, DgoalCount2, goalNet1, goalNet2, &alNet1, &alNet2);
+		
 		SDL_Delay(10);
 	}
 

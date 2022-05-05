@@ -5,7 +5,8 @@
 #define CAR_WIDTH (28)
 #define CAR_HEIGHT (44)
 #define BALL_RADIUS (60)
-
+#define GOAL_WIDTH (50)
+#define GOAL_HEIGHT (120)
 typedef struct
 {
 	float x, y;//Tọa độ
