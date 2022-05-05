@@ -14,3 +14,12 @@ typedef struct
 	float ang;//Góc
 } Opject;
 
+typedef struct 
+{
+	SDL_Texture* texture ;
+	SDL_Rect src;
+	SDL_Rect drc;
+	int car1_touch;
+	int car2_touch;
+	int touch_time;
+} itemOpject;
