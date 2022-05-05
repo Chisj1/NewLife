@@ -26,6 +26,17 @@ void initOpject(Opject *opjects, int posX, int posY, int angOject)
 	opjects->gdy = 0;
 	opjects->ang = angOject;
 }
+
+//Khởi tạo item 
+void init_item(itemOpject* item, const char* path, SDL_Renderer* renderTarget)
+{
+	item->texture = loadTexture(path, renderTarget);
+	item->drc.x = 0; item->drc.y = 0; item->drc.h = 0; item->drc.w = 0;
+	item->car1_touch = 0;
+	item->car2_touch = 0;
+	item->touch_time = 0;
+}
+
 void goalCheer(SDL_Rect *goalRec, int H, int W, float dental, Opject *alCar1, Opject *alCar2, Opject *alBall, float *delay, int *goalCount1, int *goalCount2, Mix_Chunk *soundEffectGoal)
 {
 	float rate = 0;//Tốc độ nở ra của hình GOAL
@@ -71,7 +82,7 @@ void goalCheer(SDL_Rect *goalRec, int H, int W, float dental, Opject *alCar1, Op
 }
 
 //Xử lý (gần như) mọi sự kiện
-int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *alBall, Opject *alNet1, Opject *alNet2)
+int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *alBall, Opject *alNet1, Opject *alNet2, itemOpject* sleep, itemOpject* big)
 {
 	SDL_Event event;
 	int done = 0;//Biến dừng
@@ -110,66 +121,71 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 	}
 
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
-	if (state[SDL_SCANCODE_A])
+	if (sleep->car2_touch == 0)			// nếu xe 2 dẫm vào item sleep thì xe 1 không được chạy
 	{
-		alCar1->ang -= angRate;
-	}
-	if (state[SDL_SCANCODE_D])
-	{
-		alCar1->ang += angRate;
-	}
-	if (state[SDL_SCANCODE_W])
-	{
+		if (state[SDL_SCANCODE_A])
+		{
+			alCar1->ang -= angRate;
+		}
+		if (state[SDL_SCANCODE_D])
+		{
+			alCar1->ang += angRate;
+		}
+		if (state[SDL_SCANCODE_W])
+		{
 
-		//Để điều khiển được xe di chuyển theo hướng mà nó đối diện
-		//Ta cần tính được sin và cos của góc mà nó đang hướng tới
-		//Rồi sau đó nhân với gia tốc và thêm vào thành phần vector vận tốc
-		//Vì tọa đồ của màn hình có trục X hướng từ trên xuống dưới nên để -cos
-		float cdx = sinf(radiansFromDegrees(alCar1->ang))*acc*0.1f;
-		float cdy = -cosf(radiansFromDegrees(alCar1->ang))*acc*0.1f;
-		alCar1->dx += cdx;
-		alCar1->dy += cdy;
+			//Để điều khiển được xe di chuyển theo hướng mà nó đối diện
+			//Ta cần tính được sin và cos của góc mà nó đang hướng tới
+			//Rồi sau đó nhân với gia tốc và thêm vào thành phần vector vận tốc
+			//Vì tọa đồ của màn hình có trục X hướng từ trên xuống dưới nên để -cos
+			float cdx = sinf(radiansFromDegrees(alCar1->ang)) * acc * 0.1f;
+			float cdy = -cosf(radiansFromDegrees(alCar1->ang)) * acc * 0.1f;
+			alCar1->dx += cdx;
+			alCar1->dy += cdy;
+		}
+		if (state[SDL_SCANCODE_S])
+		{
+			//Như trên nhưng xe lùi nên += -
+			float cdx = sinf(radiansFromDegrees(alCar1->ang)) * 0.1f;
+			float cdy = -cosf(radiansFromDegrees(alCar1->ang)) * 0.1f;
+			alCar1->dx += -cdx;
+			alCar1->dy += -cdy;
+		}
 	}
-	if (state[SDL_SCANCODE_S])
-	{
-		//Như trên nhưng xe lùi nên += -
-		float cdx = sinf(radiansFromDegrees(alCar1->ang))*0.1f;
-		float cdy = -cosf(radiansFromDegrees(alCar1->ang))*0.1f;
-		alCar1->dx += -cdx;
-		alCar1->dy += -cdy;
-	}
-
-
-	//Xử lý đối với xe 2
-	if (state[SDL_SCANCODE_LEFT])
-	{
-		alCar2->ang -= angRate;
-	}
-	if (state[SDL_SCANCODE_RIGHT])
-	{
-		alCar2->ang += angRate;
-	}
-	if (state[SDL_SCANCODE_UP])
-	{
-		float cdx = sinf(radiansFromDegrees(alCar2->ang))*acc*0.1f;
-		float cdy = -cosf(radiansFromDegrees(alCar2->ang))*acc*0.1f;
-
-		alCar2->dx += cdx;
-		alCar2->dy += cdy;
-	}
-	if (state[SDL_SCANCODE_DOWN])
-	{
-		float cdx = sinf(radiansFromDegrees(alCar2->ang))*0.1f;
-		float cdy = -cosf(radiansFromDegrees(alCar2->ang))*0.1f;
-
-		alCar2->dx += -cdx;
-		alCar2->dy += -cdy;
-	}
+	
 
 
-	carCollision(alCar1, alCar2);
-	BallCollision(alCar1, alBall);
-	BallCollision(alCar2, alBall);
+	if (sleep->car1_touch == 0)
+	{
+		if (state[SDL_SCANCODE_LEFT])
+		{
+			alCar2->ang -= angRate;
+		}
+		if (state[SDL_SCANCODE_RIGHT])
+		{
+			alCar2->ang += angRate;
+		}
+		if (state[SDL_SCANCODE_UP])
+		{
+			float cdx = sinf(radiansFromDegrees(alCar2->ang)) * acc * 0.1f;
+			float cdy = -cosf(radiansFromDegrees(alCar2->ang)) * acc * 0.1f;
+
+			alCar2->dx += cdx;
+			alCar2->dy += cdy;
+		}
+		if (state[SDL_SCANCODE_DOWN])
+		{
+			float cdx = sinf(radiansFromDegrees(alCar2->ang)) * 0.1f;
+			float cdy = -cosf(radiansFromDegrees(alCar2->ang)) * 0.1f;
+
+			alCar2->dx += -cdx;
+			alCar2->dy += -cdy;
+		}
+	}
+
+	carCollision(alCar1, alCar2, big->car1_touch, big->car2_touch);
+	BallCollision(alCar1, alBall, big->car1_touch);
+	BallCollision(alCar2, alBall, big->car2_touch);
 	NetCollision(alBall, alNet1);
 	NetCollision(alBall, alNet2);
 	applyForces(alCar1);
@@ -182,7 +198,7 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 
 
 //Render : Xuất mọi thứ lên trên màn hình
-void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject *alBall,SDL_Texture *ruler, SDL_Texture *car1, SDL_Texture *car2, SDL_Texture *ball, SDL_Texture *background, SDL_Texture *goal, SDL_Rect goalRect, SDL_Texture *goalCount1, SDL_Texture *goalCount2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, SDL_Rect DgoalCount1, SDL_Rect DgoalCount2, SDL_Texture *goalNet1, SDL_Texture *goalNet2, Opject *alNet1, Opject *alNet2)
+void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject *alBall,SDL_Texture *ruler, SDL_Texture *car1, SDL_Texture *car2, SDL_Texture *ball, SDL_Texture *background, SDL_Texture *goal, SDL_Rect goalRect, SDL_Texture *goalCount1, SDL_Texture *goalCount2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, SDL_Rect DgoalCount1, SDL_Rect DgoalCount2, SDL_Texture *goalNet1, SDL_Texture *goalNet2, Opject *alNet1, Opject *alNet2,itemOpject *sleep,itemOpject *Big,itemOpject *magicball)
 {
 	
 	SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
@@ -223,7 +239,91 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 	SDL_Rect rulerRect = { SCREEN_WIDTH - GOAL_WIDTH * 2.5, SCREEN_HEIGHT / 2 + GOAL_HEIGHT*1.2, 200, 5 };
 	SDL_RenderCopy(renderTarget, ruler, NULL, &rulerRect);
 
+	// Item
+	SDL_RenderCopy(renderTarget, sleep->texture, NULL, &sleep->drc);				
+	SDL_RenderCopy(renderTarget, Big->texture, NULL, &Big->drc);
+	SDL_RenderCopy(renderTarget, magicball->texture, NULL, &magicball->drc);
 
 	//Xuất mọi thứ 
 	SDL_RenderPresent(renderTarget);
+}
+
+// tạo mảng random vị trí 
+void random_pos(int* pos, int left, int right)
+{
+	for (int i = 0; i < sizeof(pos); i++) {
+		pos[i] = left + rand() % (right - left);
+	}
+}
+
+// khởi tạo random  vị trí item 
+void init_itemRect(SDL_Rect* itemRect, int* posX, int* posY, int realTime)
+{
+	int i = realTime / 15;
+	itemRect->x = posX[i];
+	itemRect->y = posY[i];
+	itemRect->w = 100;
+	itemRect->h = 100;
+}
+
+// xóa vị trí xuất hiện của item 
+void destroy_itemRect(SDL_Rect* itemRect)
+{
+	itemRect->x = -100;
+	itemRect->y = -100;
+	itemRect->w = 0;
+	itemRect->h = 0;
+}
+
+// Khởi tạo, xử lý giữa item với xe 
+void item_event(itemOpject* item, Opject* alCar1, Opject* alCar2, int startTime, int step, int effectTime, int realTime, int* item_posX, int* item_posY)
+{
+	//Khởi tạo item tại 'startTime' và sau 5s tự động xóa item lặp lại sau 'step' 
+	if ((realTime >= startTime && realTime <= startTime + 5) || (realTime >= startTime + step && realTime <= startTime + step + 5))
+	{
+		if (item->car1_touch == 0 && item->car2_touch == 0)
+			init_itemRect(&item->drc, item_posX, item_posY, realTime);
+	}
+	else
+	{
+		destroy_itemRect(&item->drc);
+	}
+
+	//Xác định va trạm giữa xe và các item
+	if (collide2d(alCar1->x, alCar1->y, item->drc.x, item->drc.y, CAR_WIDTH * 2, CAR_HEIGHT * 2, 100, 100))
+	{
+		destroy_itemRect(&item->drc);
+		item->car1_touch = 1;
+		item->touch_time = realTime;
+	}
+	if (collide2d(alCar2->x, alCar2->y, item->drc.x, item->drc.y, CAR_WIDTH * 2, CAR_HEIGHT * 2, 100, 100))
+	{
+		destroy_itemRect(&item->drc);
+		item->car2_touch = 1;
+		item->touch_time = realTime;
+	}
+
+	// Sau 'effectTime' giay xóa bỏ hiệu ứng item 
+	if (realTime >= item->touch_time + effectTime)
+	{
+		item->car1_touch = 0;
+		item->car2_touch = 0;
+	}
+
+}
+
+//Cần sửa cái item magicball này 
+void item_magicball(Opject* alball, itemOpject* magicball, Opject* alCar1, Opject* alCar2, int startTime, int step, int effectTime, int realTime, int* item_posX, int* item_posY)
+{
+	item_event(magicball, alCar1, alCar2, startTime, step, effectTime, realTime, item_posX, item_posY);
+	if (magicball->car1_touch == 1)
+	{
+		initOpject(alball, 1400, 440, 0);
+		magicball->car1_touch == 0;
+	}
+	else if (magicball->car2_touch == 1)
+	{
+		initOpject(alball, 200, 440, 0);
+		magicball->car2_touch == 0;
+	}
 }

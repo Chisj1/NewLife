@@ -15,3 +15,12 @@ typedef struct
 	float ang;//Góc
 } Opject;
 
+
+typedef struct
+{
+	SDL_Texture* texture;	// chịu :>
+	SDL_Rect drc;			// vi tri xuất item lên màn hình 
+	int car1_touch;			// xe1 nhận item 
+	int car2_touch;			// xe2 nhận item 
+	int touch_time;			// thời gian nhân item 
+} itemOpject;

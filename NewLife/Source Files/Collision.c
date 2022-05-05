@@ -66,11 +66,11 @@ void NetCollision(Opject *ball, Opject *net)
 }
 
 //Xử lý va chạm giữa bóng và xe, coi m Xe = 4 m bóng
-void BallCollision(Opject *car, Opject *ball)
+void BallCollision(Opject *car, Opject *ball, int bigcar)
 {
 	//Gán giá trị 2 chiều xe và bóng
 	const float wBall = BALL_RADIUS + 15, hBall = BALL_RADIUS + 15;
-	const float wCar = CAR_WIDTH * 2, hCar = CAR_HEIGHT * 2;
+	const float wCar = CAR_WIDTH * 2 * (bigcar + 1), hCar = CAR_HEIGHT * 2 * (bigcar + 1);
 
 
 	if (collide2d(car->x, car->y, ball->x, ball->y, wCar, hCar, wBall, hBall))
@@ -93,18 +93,29 @@ void BallCollision(Opject *car, Opject *ball)
 
 		car->gdx += -vx * carSpeed;
 		car->gdy += -vy * carSpeed;
-		ball->gdx += vx * carSpeed * 4.0f;
-		ball->gdy += vy * carSpeed * 4.0f;
+
+		//
+		if (bigcar != 0)
+		{
+			ball->gdx += vx * carSpeed * 4.0f * (bigcar + 1) / 1.3f;
+			ball->gdy += vy * carSpeed * 4.0f * (bigcar + 1) / 1.3f;
+		}
+		else
+		{
+			ball->gdx += vx * carSpeed * 4.0f;
+			ball->gdy += vy * carSpeed * 4.0f;
+		}
 
 	}
 
 }
 
 //Như hàm ở trên chỉ khác là va chạm với 2 xe và 2 xe có cùng khối lượng
-void carCollision(Opject *car, Opject *car2)
+void carCollision(Opject *car, Opject *car2, int bigcar1, int bigcar2)
 {
-	const float w = CAR_WIDTH * 2 + 20, h = CAR_HEIGHT * 2 - 25;
-	if (collide2d(car->x, car->y, car2->x, car2->y, w, h, w, h))
+	const float w1 = CAR_WIDTH * 2 * (bigcar1 + 1) + 20, h1 = CAR_HEIGHT * 2 * (bigcar1 + 1) - 25;
+	const float w2 = CAR_WIDTH * 2 * (bigcar2 + 1) + 20, h2 = CAR_HEIGHT * 2 * (bigcar2 + 1) - 25;
+	if (collide2d(car->x, car->y, car2->x, car2->y, w1, h1, w2, h2))
 	{
 		float vx = car2->x - car->x;
 		float vy = car2->y - car->y;
@@ -123,10 +134,31 @@ void carCollision(Opject *car, Opject *car2)
 
 		normalize(&vx, &vy);
 
-		car->gdx += -vx * car2Speed;
-		car->gdy += -vy * car2Speed;
-		car2->gdx += vx * car1Speed;
-		car2->gdy += vy * car1Speed;
+		if (bigcar1 == 0 && bigcar2 == 0)
+		{
+			car->gdx += -vx * car2Speed;
+			car->gdy += -vy * car2Speed;
+			car2->gdx += vx * car1Speed;
+			car2->gdy += vy * car1Speed;
+		}
+		else
+		{
+			//Nếu xe 1 phóng to thì m1 = 4 m2 và ngược lại 
+			if (bigcar1 == 1)			
+			{
+				car->gdx += -vx * car2Speed;
+				car->gdy += -vy * car2Speed;
+				car2->gdx += vx * car1Speed * 4;
+				car2->gdy += vy * car1Speed * 4;
+			}
+			else
+			{
+				car->gdx += -vx * car2Speed * 4;
+				car->gdy += -vy * car2Speed * 4;
+				car2->gdx += vx * car1Speed;
+				car2->gdy += vy * car1Speed;
+			}
+		}
 	}
 }
 

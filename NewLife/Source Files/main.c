@@ -4,6 +4,8 @@
 #include "..\Header Files\MathUtil.h"
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include"..\Header Files\Define.h"
 #include"..\Header Files\WindowSDL.h"
 #include"..\Header Files\Collision.h"
@@ -87,6 +89,15 @@ int main(int argc, char *argv[])
 	SDL_Rect DgoalCount1 = { 450, 20, 240, 240 };
 	SDL_Rect DgoalCount2 = { 900, 20, 240, 240 };
 
+	//Khởi tạo item ,tạo mảng random vitri item 
+	itemOpject sleep, Big, magicball;
+	init_item(&sleep, "itemSleep.bmp", renderTarget);
+	init_item(&Big, "itemSleep.bmp", renderTarget);
+	init_item(&magicball, "itemSleep.bmp", renderTarget);
+	int item_posX[20], item_posY[20];
+	random_pos(item_posX, 150, SCREEN_WIDTH - 150);
+	random_pos(item_posY, 100, SCREEN_HEIGHT - 100);
+
 	//Biến dừng
 	int done = 0;
 
@@ -95,6 +106,7 @@ int main(int argc, char *argv[])
 	float preTime = 0;
 	float delta = 0;
 	float delay = 0;
+	int realTime = 0;
 
 	int goalCount1 = 0;
 	int goalCount2 = 0;
@@ -115,11 +127,12 @@ int main(int argc, char *argv[])
 		preTime = currTime;
 		currTime = (float)SDL_GetTicks();
 		delta = (currTime - preTime) / 1000.0f;
+		realTime = (int)(currTime / 1000);
 
 		//Chơi nhạc BG
 		if (!Mix_PlayingMusic())
 			Mix_PlayMusic(bgm, -1);
-		done = processEvents(window, &alCar1, &alCar2, &alBall, &alNet1, &alNet2);
+		done = processEvents(window, &alCar1, &alCar2, &alBall, &alNet1, &alNet2,&sleep, &Big);
 
 		//Ăn mừng bàn thắng 
 		if (isGoal(&alBall))
@@ -129,9 +142,15 @@ int main(int argc, char *argv[])
 
 		//Tính điểm bàn thắng	
 		goalCounting(goalCount1, goalCount2, &SgoalCount1, &SgoalCount2, 48);
+
+		//Item hiệu ứng, item chỉ xuất hiện 2 lần mỗi loại
+		item_event(&Big, &alCar1, &alCar2, 15, 45, 7, realTime, item_posX, item_posY);
+		item_event(&sleep, &alCar1, &alCar2, 30, 60, 6, realTime, item_posX, item_posY);
+		//lỗi cái item này 
+		//item_magicball(&alBall, &magicball, &alCar1, &alCar2, 5, 15,1, realTime, item_posX, item_posY);
 		
 		//Render tất cả mọi thứ
-		doRender(renderTarget, &alCar1, &alCar2, &alBall, ruler, car1, car2, ball, background, goal, goalRect, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, DgoalCount1, DgoalCount2, goalNet1, goalNet2, &alNet1, &alNet2);
+		doRender(renderTarget, &alCar1, &alCar2, &alBall, ruler, car1, car2, ball, background, goal, goalRect, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, DgoalCount1, DgoalCount2, goalNet1, goalNet2, &alNet1, &alNet2, &sleep, &Big, &magicball);
 		
 		SDL_Delay(10);
 	}
