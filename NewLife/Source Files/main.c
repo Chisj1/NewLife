@@ -93,9 +93,9 @@ int main(int argc, char *argv[])
 
 	//Khởi tạo item ,tạo mảng random vitri item 
 	itemOpject sleep, Big, magicball;
-	init_item(&sleep, "Image.bmp", renderTarget);
-	init_item(&Big, "Image.bmp", renderTarget);
-	init_item(&magicball, "Image.bmp", renderTarget);
+	init_item(&sleep, ".\\Resource Files\\itemSleep.png", renderTarget);
+	init_item(&Big, ".\\Resource Files\\itemSleep.png", renderTarget);
+	init_item(&magicball, ".\\Resource Files\\itemSleep.png", renderTarget);
 	int item_posX[20], item_posY[20];
 	random_pos(item_posX, 150, SCREEN_WIDTH - 150);
 	random_pos(item_posY, 100, SCREEN_HEIGHT - 100);

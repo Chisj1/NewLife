@@ -77,7 +77,7 @@
     <Image Include="Ruler.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Source Files\Image.bmp">
+    <Image Include="Resource Files\itemSleep.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

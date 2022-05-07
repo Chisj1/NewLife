@@ -210,11 +210,11 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 	SDL_SetRenderDrawColor(renderTarget, 255, 255, 255, 255);
 
 	SDL_Point center1 = { CAR_WIDTH , CAR_HEIGHT + 15 };//Set tâm quay cho xe1
-	SDL_Rect rect = { alCar->x, alCar->y, CAR_WIDTH * 2, CAR_HEIGHT * 2 };
+	SDL_Rect rect = { alCar->x, alCar->y, CAR_WIDTH * 2 * (Big->car1_touch + 1), CAR_HEIGHT * 2 * (Big->car1_touch + 1) };
 	SDL_RenderCopyEx(renderTarget, car1, NULL, &rect, alCar->ang, &center1, 0);
 
 	SDL_Point center2 = { CAR_WIDTH , CAR_HEIGHT + 15 };//Set tâm quay cho xe2
-	SDL_Rect rect2 = { alCar2->x, alCar2->y, CAR_WIDTH * 2, CAR_HEIGHT * 2 };
+	SDL_Rect rect2 = { alCar2->x, alCar2->y, CAR_WIDTH * 2 * (Big->car2_touch + 1), CAR_HEIGHT * 2 * (Big->car2_touch + 1) };
 	SDL_RenderCopyEx(renderTarget, car2, NULL, &rect2, alCar2->ang, &center2, 0);
 
 	//Hitbox của quá bóng
