@@ -18,7 +18,7 @@ typedef struct
 
 typedef struct
 {
-	SDL_Texture* texture;	// chịu :>
+	SDL_Texture* texture;	// hỉnh ảnh 
 	SDL_Rect drc;			// vi tri xuất item lên màn hình 
 	int car1_touch;			// xe1 nhận item 
 	int car2_touch;			// xe2 nhận item 

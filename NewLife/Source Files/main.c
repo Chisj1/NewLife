@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 
 
 	SDL_Rect rulerRect;
-	
+
 	ruler = loadTexture("Ruler.png", renderTarget);
 	if (ruler == NULL)
 		printf("Error Ruler");
@@ -93,9 +93,9 @@ int main(int argc, char *argv[])
 
 	//Khởi tạo item ,tạo mảng random vitri item 
 	itemOpject sleep, Big, magicball;
-	init_item(&sleep, "itemSleep.bmp", renderTarget);
-	init_item(&Big, "itemSleep.bmp", renderTarget);
-	init_item(&magicball, "itemSleep.bmp", renderTarget);
+	init_item(&sleep, "Image.bmp", renderTarget);
+	init_item(&Big, "Image.bmp", renderTarget);
+	init_item(&magicball, "Image.bmp", renderTarget);
 	int item_posX[20], item_posY[20];
 	random_pos(item_posX, 150, SCREEN_WIDTH - 150);
 	random_pos(item_posY, 100, SCREEN_HEIGHT - 100);
@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
 		//Chơi nhạc BG
 		if (!Mix_PlayingMusic())
 			Mix_PlayMusic(bgm, -1);
-		done = processEvents(window, &alCar1, &alCar2, &alBall, &alNet1, &alNet2,&sleep, &Big);
+		done = processEvents(window, &alCar1, &alCar2, &alBall, &alNet1, &alNet2, &sleep, &Big);
 
 		//Ăn mừng bàn thắng 
 		if (isGoal(&alBall))
@@ -150,10 +150,10 @@ int main(int argc, char *argv[])
 		item_event(&sleep, &alCar1, &alCar2, 30, 60, 6, realTime, item_posX, item_posY);
 		//lỗi cái item này 
 		//item_magicball(&alBall, &magicball, &alCar1, &alCar2, 5, 15,1, realTime, item_posX, item_posY);
-		
+
 		//Render tất cả mọi thứ
 		doRender(renderTarget, &alCar1, &alCar2, &alBall, ruler, car1, car2, ball, background, goal, goalRect, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, DgoalCount1, DgoalCount2, goalNet1, goalNet2, &alNet1, &alNet2, &sleep, &Big, &magicball);
-		
+
 		SDL_Delay(10);
 	}
 

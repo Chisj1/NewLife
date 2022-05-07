@@ -228,7 +228,7 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 	//GOAL
 	SDL_RenderCopy(renderTarget, goal, NULL, &goalRect);
 
-	//Render 2 cái lưới, nhưng mà thực sự ko cần thiết lắm
+	//Render 2 cái lưới
 	SDL_Rect rectGoalNet1 = { alNet1->x, alNet1->y, GOAL_WIDTH*2.5, GOAL_HEIGHT*2.5 };
 	SDL_Rect rectGoalNet2 = { alNet2->x, alNet2->y, GOAL_WIDTH*2.5, GOAL_HEIGHT*2.5 };
 	SDL_RenderCopy(renderTarget, goalNet1, NULL, &rectGoalNet1);
@@ -312,7 +312,7 @@ void item_event(itemOpject* item, Opject* alCar1, Opject* alCar2, int startTime,
 
 }
 
-//Cần sửa cái item magicball này 
+//TODO Cần sửa cái item magicball này 
 void item_magicball(Opject* alball, itemOpject* magicball, Opject* alCar1, Opject* alCar2, int startTime, int step, int effectTime, int realTime, int* item_posX, int* item_posY)
 {
 	item_event(magicball, alCar1, alCar2, startTime, step, effectTime, realTime, item_posX, item_posY);
