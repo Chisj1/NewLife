@@ -128,6 +128,7 @@ int main(int argc, char *argv[])
 
 		preTime = currTime;
 		currTime = (float)SDL_GetTicks();
+		//printf("%.f\n", currTime);
 		delta = (currTime - preTime) / 1000.0f;
 		realTime = (int)(currTime / 1000);
 

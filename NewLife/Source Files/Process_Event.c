@@ -152,7 +152,7 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 			alCar1->dy += -cdy;
 		}
 	}
-	
+
 
 
 	if (sleep->car1_touch == 0)
@@ -198,9 +198,9 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 
 
 //Render : Xuất mọi thứ lên trên màn hình
-void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject *alBall,SDL_Texture *ruler, SDL_Texture *car1, SDL_Texture *car2, SDL_Texture *ball, SDL_Texture *background, SDL_Texture *goal, SDL_Rect goalRect, SDL_Texture *goalCount1, SDL_Texture *goalCount2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, SDL_Rect DgoalCount1, SDL_Rect DgoalCount2, SDL_Texture *goalNet1, SDL_Texture *goalNet2, Opject *alNet1, Opject *alNet2,itemOpject *sleep,itemOpject *Big,itemOpject *magicball)
+void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject *alBall, SDL_Texture *ruler, SDL_Texture *car1, SDL_Texture *car2, SDL_Texture *ball, SDL_Texture *background, SDL_Texture *goal, SDL_Rect goalRect, SDL_Texture *goalCount1, SDL_Texture *goalCount2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, SDL_Rect DgoalCount1, SDL_Rect DgoalCount2, SDL_Texture *goalNet1, SDL_Texture *goalNet2, Opject *alNet1, Opject *alNet2, itemOpject *sleep, itemOpject *Big, itemOpject *magicball)
 {
-	
+
 	SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
 
 
@@ -236,11 +236,11 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 
 
 	//Thuowsc ker
-	SDL_Rect rulerRect = { SCREEN_WIDTH - GOAL_WIDTH * 2.5, SCREEN_HEIGHT / 2 + GOAL_HEIGHT*1.2, 200, 5 };
+	SDL_Rect rulerRect = { SCREEN_WIDTH - GOAL_WIDTH * 2.5, SCREEN_HEIGHT / 2 + GOAL_HEIGHT * 1.2, 200, 5 };
 	SDL_RenderCopy(renderTarget, ruler, NULL, &rulerRect);
 
 	// Item
-	SDL_RenderCopy(renderTarget, sleep->texture, NULL, &sleep->drc);				
+	SDL_RenderCopy(renderTarget, sleep->texture, NULL, &sleep->drc);
 	SDL_RenderCopy(renderTarget, Big->texture, NULL, &Big->drc);
 	SDL_RenderCopy(renderTarget, magicball->texture, NULL, &magicball->drc);
 
