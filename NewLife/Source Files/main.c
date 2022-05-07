@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
 	init_item(&Big, ".\\Resource Files\\itemSleep.png", renderTarget);
 	init_item(&magicball, ".\\Resource Files\\itemSleep.png", renderTarget);
 	int item_posX[20], item_posY[20];
-	random_pos(item_posX, 150, SCREEN_WIDTH - 150);
+	random_pos(item_posX, 350, SCREEN_WIDTH - 350);
 	random_pos(item_posY, 100, SCREEN_HEIGHT - 100);
 
 	//Biến dừng
@@ -121,6 +121,9 @@ int main(int argc, char *argv[])
 	Mix_Chunk *soundEffectGoal = Mix_LoadWAV(".\\Resource Files\\Music\\goal.wav");
 	if (soundEffectGoal == NULL)
 		printf("Eror SOund");
+
+	//Biến điều kiện chạy hàm item
+	int a = 1, b = 1;
 
 	//Bắt đầu game
 	while (!done)
@@ -147,10 +150,9 @@ int main(int argc, char *argv[])
 		goalCounting(goalCount1, goalCount2, &SgoalCount1, &SgoalCount2, 48);
 
 		//Item hiệu ứng, item chỉ xuất hiện 2 lần mỗi loại
-		item_event(&Big, &alCar1, &alCar2, 15, 45, 7, realTime, item_posX, item_posY);
-		item_event(&sleep, &alCar1, &alCar2, 30, 60, 6, realTime, item_posX, item_posY);
-		//lỗi cái item này 
-		//item_magicball(&alBall, &magicball, &alCar1, &alCar2, 5, 15,1, realTime, item_posX, item_posY);
+		item_event(&Big, &alCar1, &alCar2, 30, 75, 7, realTime, item_posX, item_posY,&b);
+		item_event(&sleep, &alCar1, &alCar2, 60, 150, 6, realTime, item_posX, item_posY,&b); 
+		item_magicball(&alBall, &magicball, &alCar1, &alCar2, 105, 135,5, realTime, item_posX, item_posY,&a);
 
 		//Render tất cả mọi thứ
 		doRender(renderTarget, &alCar1, &alCar2, &alBall, ruler, car1, car2, ball, background, goal, goalRect, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, DgoalCount1, DgoalCount2, goalNet1, goalNet2, &alNet1, &alNet2, &sleep, &Big, &magicball);

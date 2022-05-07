@@ -7,5 +7,5 @@ void goalCheer(SDL_Rect *goalRec, int H, int W, float dental, Opject *alCar1, Op
 void goalCounting(int goalCount1, int goalCount2, SDL_Rect *SgoalCount1, SDL_Rect *SgoalCount2, float FrameW);
 void random_pos(int* pos, int left, int right);
 void init_item(itemOpject* item, const char* path, SDL_Renderer* renderTarget);
-void item_event(itemOpject* item, Opject* alCar1, Opject* alCar2, int startTime, int step, int effectTime, int realTime, int* item_posX, int* item_posY);
-void item_magicball(Opject* ball, itemOpject* magicball, Opject* alCar1, Opject* alCar2, int startTime, int step, int effectTime, int realTime, int* item_posX, int* item_posY);
+void item_event(itemOpject* item, Opject* alCar1, Opject* alCar2, int startTime, int againTime, int effectTime, int realTime, int* item_posX, int* item_posY, int *a);
+void item_magicball(Opject* ball, itemOpject* magicball, Opject* alCar1, Opject* alCar2, int startTime, int againTime, int effectTime, int realTime, int* item_posX, int* item_posY, int *a);

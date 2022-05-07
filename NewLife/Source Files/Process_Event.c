@@ -251,7 +251,7 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 // tạo mảng random vị trí 
 void random_pos(int* pos, int left, int right)
 {
-	for (int i = 0; i < sizeof(pos); i++) {
+	for (int i = 0; i < 20; i++) {
 		pos[i] = left + rand() % (right - left);
 	}
 }
@@ -276,31 +276,37 @@ void destroy_itemRect(SDL_Rect* itemRect)
 }
 
 // Khởi tạo, xử lý giữa item với xe 
-void item_event(itemOpject* item, Opject* alCar1, Opject* alCar2, int startTime, int step, int effectTime, int realTime, int* item_posX, int* item_posY)
+void item_event(itemOpject* item, Opject* alCar1, Opject* alCar2, int startTime, int againTime, int effectTime, int realTime, int* item_posX, int* item_posY, int* a)
 {
-	//Khởi tạo item tại 'startTime' và sau 5s tự động xóa item lặp lại sau 'step' 
-	if ((realTime >= startTime && realTime <= startTime + 5) || (realTime >= startTime + step && realTime <= startTime + step + 5))
+	//Khởi tạo item tại 'startTime' và sau 5s tự động xóa item lặp lại tại 'againTime' 
+	if ((realTime >= startTime && realTime <= startTime + 5) || (realTime >= againTime && realTime <= againTime + 5))
 	{
-		if (item->car1_touch == 0 && item->car2_touch == 0)
-			init_itemRect(&item->drc, item_posX, item_posY, realTime);
+		if (*a == 1)
+		{
+			if (item->car1_touch == 0 && item->car2_touch == 0)
+			{
+				init_itemRect(&item->drc, item_posX, item_posY, realTime);
+				printf("%d  ", realTime);
+			}
+		}
+
+		//Xác định va trạm giữa xe và các item
+		if (collide2d(alCar1->x, alCar1->y, item->drc.x, item->drc.y, CAR_WIDTH * 2, CAR_HEIGHT * 2, 100, 100))
+		{
+			destroy_itemRect(&item->drc);
+			item->car1_touch = 1;
+			item->touch_time = realTime;
+		}
+		if (collide2d(alCar2->x, alCar2->y, item->drc.x, item->drc.y, CAR_WIDTH * 2, CAR_HEIGHT * 2, 100, 100))
+		{
+			destroy_itemRect(&item->drc);
+			item->car2_touch = 1;
+			item->touch_time = realTime;
+		}
 	}
 	else
 	{
 		destroy_itemRect(&item->drc);
-	}
-
-	//Xác định va trạm giữa xe và các item
-	if (collide2d(alCar1->x, alCar1->y, item->drc.x, item->drc.y, CAR_WIDTH * 2, CAR_HEIGHT * 2, 100, 100))
-	{
-		destroy_itemRect(&item->drc);
-		item->car1_touch = 1;
-		item->touch_time = realTime;
-	}
-	if (collide2d(alCar2->x, alCar2->y, item->drc.x, item->drc.y, CAR_WIDTH * 2, CAR_HEIGHT * 2, 100, 100))
-	{
-		destroy_itemRect(&item->drc);
-		item->car2_touch = 1;
-		item->touch_time = realTime;
 	}
 
 	// Sau 'effectTime' giay xóa bỏ hiệu ứng item 
@@ -308,22 +314,26 @@ void item_event(itemOpject* item, Opject* alCar1, Opject* alCar2, int startTime,
 	{
 		item->car1_touch = 0;
 		item->car2_touch = 0;
+		*a = 1;
 	}
 
 }
 
-//TODO Cần sửa cái item magicball này 
-void item_magicball(Opject* alball, itemOpject* magicball, Opject* alCar1, Opject* alCar2, int startTime, int step, int effectTime, int realTime, int* item_posX, int* item_posY)
+//Sửa xong r nhá, hơi lằng nhằng nhưng chạy được :))
+void item_magicball(Opject* alball, itemOpject* magicball, Opject* alCar1, Opject* alCar2, int startTime, int againTime, int effectTime, int realTime, int* item_posX, int* item_posY, int* a)
 {
-	item_event(magicball, alCar1, alCar2, startTime, step, effectTime, realTime, item_posX, item_posY);
-	if (magicball->car1_touch == 1)
+	item_event(magicball, alCar1, alCar2, startTime, againTime, effectTime, realTime, item_posX, item_posY, a);
+	if (*a == 1)
 	{
-		initOpject(alball, 1400, 440, 0);
-		magicball->car1_touch == 0;
-	}
-	else if (magicball->car2_touch == 1)
-	{
-		initOpject(alball, 200, 440, 0);
-		magicball->car2_touch == 0;
+		if (magicball->car1_touch == 1)
+		{
+			initOpject(alball, 1250, 440, 0);
+			*a = 0;
+		}
+		else if (magicball->car2_touch == 1)
+		{
+			initOpject(alball, 350, 440, 0);
+			*a = 0;
+		}
 	}
 }
