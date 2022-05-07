@@ -7,7 +7,7 @@
 #define BALL_RADIUS (60)
 #define GOAL_WIDTH (50)
 #define GOAL_HEIGHT (120)
-typedef struct
+typedef struct Opject
 {
 	float x, y;//Tọa độ
 	float dx, dy;//Vector vận tốc
@@ -16,7 +16,7 @@ typedef struct
 } Opject;
 
 
-typedef struct
+typedef struct itemOpject
 {
 	SDL_Texture* texture;	// hỉnh ảnh 
 	SDL_Rect drc;			// vi tri xuất item lên màn hình 

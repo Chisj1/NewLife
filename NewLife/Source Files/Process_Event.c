@@ -138,7 +138,7 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 			//Ta cần tính được sin và cos của góc mà nó đang hướng tới
 			//Rồi sau đó nhân với gia tốc và thêm vào thành phần vector vận tốc
 			//Vì tọa đồ của màn hình có trục X hướng từ trên xuống dưới nên để -cos
-			float cdx = sinf(radiansFromDegrees(alCar1->ang)) * acc * 0.1f;
+			float cdx = sinf(radiansFromDegrees(alCar1->ang)) * acc * 0.1f * ((float)big->car1_touch *0.5f + 1);
 			float cdy = -cosf(radiansFromDegrees(alCar1->ang)) * acc * 0.1f;
 			alCar1->dx += cdx;
 			alCar1->dy += cdy;
@@ -167,7 +167,7 @@ int processEvents(SDL_Window *window, Opject *alCar1, Opject *alCar2, Opject *al
 		}
 		if (state[SDL_SCANCODE_UP])
 		{
-			float cdx = sinf(radiansFromDegrees(alCar2->ang)) * acc * 0.1f;
+			float cdx = sinf(radiansFromDegrees(alCar2->ang)) * acc * 0.1f * ((float)big->car1_touch *0.5f + 1);
 			float cdy = -cosf(radiansFromDegrees(alCar2->ang)) * acc * 0.1f;
 
 			alCar2->dx += cdx;
@@ -209,13 +209,11 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 
 	SDL_SetRenderDrawColor(renderTarget, 255, 255, 255, 255);
 
-	SDL_Point center1 = { CAR_WIDTH , CAR_HEIGHT + 15 };//Set tâm quay cho xe1
+	SDL_Point center = { CAR_WIDTH * (Big->car1_touch + 1) , (CAR_HEIGHT + 15) * (Big->car1_touch + 1) };//Set tâm quay cho 2 xe
 	SDL_Rect rect = { alCar->x, alCar->y, CAR_WIDTH * 2 * (Big->car1_touch + 1), CAR_HEIGHT * 2 * (Big->car1_touch + 1) };
-	SDL_RenderCopyEx(renderTarget, car1, NULL, &rect, alCar->ang, &center1, 0);
-
-	SDL_Point center2 = { CAR_WIDTH , CAR_HEIGHT + 15 };//Set tâm quay cho xe2
+	SDL_RenderCopyEx(renderTarget, car1, NULL, &rect, alCar->ang, &center, 0);
 	SDL_Rect rect2 = { alCar2->x, alCar2->y, CAR_WIDTH * 2 * (Big->car2_touch + 1), CAR_HEIGHT * 2 * (Big->car2_touch + 1) };
-	SDL_RenderCopyEx(renderTarget, car2, NULL, &rect2, alCar2->ang, &center2, 0);
+	SDL_RenderCopyEx(renderTarget, car2, NULL, &rect2, alCar2->ang, &center, 0);
 
 	//Hitbox của quá bóng
 	SDL_Rect rectBall = { alBall->x, alBall->y, BALL_RADIUS + 15, BALL_RADIUS + 15 };
@@ -286,7 +284,7 @@ void item_event(itemOpject* item, Opject* alCar1, Opject* alCar2, int startTime,
 			if (item->car1_touch == 0 && item->car2_touch == 0)
 			{
 				init_itemRect(&item->drc, item_posX, item_posY, realTime);
-				printf("%d  ", realTime);
+				//printf("%d  ", realTime);
 			}
 		}
 
