@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
 			goalCounting(goalCount1, goalCount2, &SgoalCount1, &SgoalCount2, 48);
 
 			//Item hiệu ứng, item chỉ xuất hiện 2 lần mỗi loại
-			item_event(&Big, &alCar1, &alCar2, 30, 75, 7, realTime, item_posX, item_posY, &b);
+			item_event(&Big, &alCar1, &alCar2, 3, 75, 7, realTime, item_posX, item_posY, &b);
 			item_event(&sleep, &alCar1, &alCar2, 60, 150, 6, realTime, item_posX, item_posY, &b);
 			item_magicball(&alBall, &magicball, &alCar1, &alCar2, 105, 135, 5, realTime, item_posX, item_posY, &a);
 

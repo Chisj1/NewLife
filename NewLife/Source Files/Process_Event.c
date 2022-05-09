@@ -209,11 +209,12 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 
 	SDL_SetRenderDrawColor(renderTarget, 255, 255, 255, 255);
 
-	SDL_Point center = { CAR_WIDTH * (Big->car1_touch + 1) , (CAR_HEIGHT + 15) * (Big->car1_touch + 1) };//Set tâm quay cho 2 xe
+	SDL_Point center1 = { CAR_WIDTH * (Big->car1_touch + 1) , (CAR_HEIGHT + 15) * (Big->car1_touch + 1) };
+	SDL_Point center2 = { CAR_WIDTH * (Big->car2_touch + 1) , (CAR_HEIGHT + 15) * (Big->car2_touch + 1) };//Set tâm quay cho 2 xe
 	SDL_Rect rect = { alCar->x, alCar->y, CAR_WIDTH * 2 * (Big->car1_touch + 1), CAR_HEIGHT * 2 * (Big->car1_touch + 1) };
-	SDL_RenderCopyEx(renderTarget, car1, NULL, &rect, alCar->ang, &center, 0);
+	SDL_RenderCopyEx(renderTarget, car1, NULL, &rect, alCar->ang, &center1, 0);
 	SDL_Rect rect2 = { alCar2->x, alCar2->y, CAR_WIDTH * 2 * (Big->car2_touch + 1), CAR_HEIGHT * 2 * (Big->car2_touch + 1) };
-	SDL_RenderCopyEx(renderTarget, car2, NULL, &rect2, alCar2->ang, &center, 0);
+	SDL_RenderCopyEx(renderTarget, car2, NULL, &rect2, alCar2->ang, &center2, 0);
 
 	//Hitbox của quá bóng
 	SDL_Rect rectBall = { alBall->x, alBall->y, BALL_RADIUS + 15, BALL_RADIUS + 15 };
