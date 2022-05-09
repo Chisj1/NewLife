@@ -335,3 +335,90 @@ void item_magicball(Opject* alball, itemOpject* magicball, Opject* alCar1, Opjec
 		}
 	}
 }
+
+int CheckForcusWithRect(int x, int y, SDL_Rect rect)
+{
+	if (x >= rect.x && x <= rect.x + rect.w &&
+		y >= rect.y && y <= rect.y + rect.h)
+	{
+		return 1;
+	}
+	return 0;
+}
+int menu(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* background_menu, SDL_Texture* start, SDL_Texture* exit1, SDL_Texture* start1, SDL_Texture* exit2)
+{
+
+	background_menu = loadTexture(".\\Resource Files\\Menu\\bg2.bmp", renderTarget);
+	start = loadTexture(".\\Resource Files\\Menu\\start.bmp", renderTarget);
+	exit1 = loadTexture(".\\Resource Files\\Menu\\exit1.bmp", renderTarget);
+	start1 = loadTexture(".\\Resource Files\\Menu\\start1.bmp", renderTarget);
+	exit2 = loadTexture(".\\Resource Files\\Menu\\exit2.bmp", renderTarget);
+	SDL_Rect drc_start = { 600,200,400,200 };
+	SDL_Rect drc_exit1 = { 600,500,400,200 };
+	SDL_Rect drc_start1 = { 600,200,400,200 };
+	SDL_Rect drc_exit2 = { 600,500,400,200 };
+	int done;
+	SDL_Event  m_event;
+	int xm = 0;
+	int ym = 0;
+	while (1)
+	{
+		SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
+
+		SDL_RenderClear(renderTarget);
+		SDL_RenderCopy(renderTarget, background_menu, NULL, NULL);
+
+		SDL_RenderCopy(renderTarget, start, NULL, &drc_start);
+		SDL_RenderCopy(renderTarget, exit1, NULL, &drc_exit1);
+		SDL_RenderPresent(renderTarget);
+
+		while (SDL_PollEvent(&m_event))
+		{
+			switch (m_event.type)
+			{
+			case SDL_QUIT:
+			{
+				return 1;
+			}
+			break;
+			case SDL_MOUSEMOTION:
+			{
+				xm = m_event.motion.x;
+				ym = m_event.motion.y;
+
+
+				if (CheckForcusWithRect(xm, ym, drc_start))
+				{
+					SDL_RenderCopy(renderTarget, start1, NULL, &drc_start1);
+					SDL_RenderPresent(renderTarget);
+					SDL_Delay(200);
+				}
+				if (CheckForcusWithRect(xm, ym, drc_exit1))
+				{
+					SDL_RenderCopy(renderTarget, exit2, NULL, &drc_exit2);
+					SDL_RenderPresent(renderTarget);
+					SDL_Delay(200);
+				}
+
+			}
+			break;
+			case SDL_MOUSEBUTTONDOWN:
+			{
+				xm = m_event.button.x;
+				ym = m_event.button.y;
+				if (CheckForcusWithRect(xm, ym, drc_start))
+				{
+					return 0;
+				}
+				if (CheckForcusWithRect(xm, ym, drc_exit1))
+				{
+					return 1;
+				}
+			}
+			break;
+			}
+		}
+	}
+
+
+}

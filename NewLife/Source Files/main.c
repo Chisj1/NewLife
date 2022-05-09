@@ -29,6 +29,12 @@ int main(int argc, char *argv[])
 	static SDL_Texture *goalNet1 = NULL;
 	static SDL_Texture *goalNet2 = NULL;
 	static SDL_Texture *ruler = NULL;
+	static SDL_Texture* background_menu = NULL;
+	static SDL_Texture* start = NULL;
+	static SDL_Texture* start1 = NULL;
+	static SDL_Texture* exit1 = NULL;
+	static SDL_Texture* exit2 = NULL;
+	
 	//Khởi tạo màn hình chính
 	SDL_Window *window = NULL;
 	window = SDL_CreateWindow("Rocket League 2D", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
@@ -109,7 +115,7 @@ int main(int argc, char *argv[])
 	float delta = 0;
 	float delay = 0;
 	int realTime = 0;
-
+	int timestart = 0;
 	int goalCount1 = 0;
 	int goalCount2 = 0;
 
@@ -126,40 +132,47 @@ int main(int argc, char *argv[])
 	int a = 1, b = 1;
 
 	//Bắt đầu game
-	while (!done)
+	int Menu_check = menu(renderTarget, window, background_menu, start, exit1, start1, exit2);
+	if (Menu_check)
 	{
-
-		preTime = currTime;
-		currTime = (float)SDL_GetTicks();
-		//printf("%.f\n", currTime);
-		delta = (currTime - preTime) / 1000.0f;
-		realTime = (int)(currTime / 1000);
-
-		//Chơi nhạc BG
-		if (!Mix_PlayingMusic())
-			Mix_PlayMusic(bgm, -1);
-		done = processEvents(window, &alCar1, &alCar2, &alBall, &alNet1, &alNet2, &sleep, &Big);
-
-		//Ăn mừng bàn thắng 
-		if (isGoal(&alBall))
-		{
-			goalCheer(&goalRect, H, W, delta, &alCar1, &alCar2, &alBall, &delay, &goalCount1, &goalCount2, soundEffectGoal);
-		}
-
-		//Tính điểm bàn thắng	
-		goalCounting(goalCount1, goalCount2, &SgoalCount1, &SgoalCount2, 48);
-
-		//Item hiệu ứng, item chỉ xuất hiện 2 lần mỗi loại
-		item_event(&Big, &alCar1, &alCar2, 30, 75, 7, realTime, item_posX, item_posY,&b);
-		item_event(&sleep, &alCar1, &alCar2, 60, 150, 6, realTime, item_posX, item_posY,&b); 
-		item_magicball(&alBall, &magicball, &alCar1, &alCar2, 105, 135,5, realTime, item_posX, item_posY,&a);
-
-		//Render tất cả mọi thứ
-		doRender(renderTarget, &alCar1, &alCar2, &alBall, ruler, car1, car2, ball, background, goal, goalRect, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, DgoalCount1, DgoalCount2, goalNet1, goalNet2, &alNet1, &alNet2, &sleep, &Big, &magicball);
-
-		SDL_Delay(10);
+		exit(0);
 	}
+	else
+	{
+		timestart = SDL_GetTicks();
+		while (!done)
+		{
 
+			preTime = currTime;
+			currTime = (float)SDL_GetTicks();
+			delta = (currTime - preTime) / 1000.0f;
+			realTime = (int)((currTime - (float)timestart) / 1000);
+
+			//Chơi nhạc BG
+			if (!Mix_PlayingMusic())
+				Mix_PlayMusic(bgm, -1);
+			done = processEvents(window, &alCar1, &alCar2, &alBall, &alNet1, &alNet2, &sleep, &Big);
+
+			//Ăn mừng bàn thắng 
+			if (isGoal(&alBall))
+			{
+				goalCheer(&goalRect, H, W, delta, &alCar1, &alCar2, &alBall, &delay, &goalCount1, &goalCount2, soundEffectGoal);
+			}
+
+			//Tính điểm bàn thắng	
+			goalCounting(goalCount1, goalCount2, &SgoalCount1, &SgoalCount2, 48);
+
+			//Item hiệu ứng, item chỉ xuất hiện 2 lần mỗi loại
+			item_event(&Big, &alCar1, &alCar2, 30, 75, 7, realTime, item_posX, item_posY, &b);
+			item_event(&sleep, &alCar1, &alCar2, 60, 150, 6, realTime, item_posX, item_posY, &b);
+			item_magicball(&alBall, &magicball, &alCar1, &alCar2, 105, 135, 5, realTime, item_posX, item_posY, &a);
+
+			//Render tất cả mọi thứ
+			doRender(renderTarget, &alCar1, &alCar2, &alBall, ruler, car1, car2, ball, background, goal, goalRect, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, DgoalCount1, DgoalCount2, goalNet1, goalNet2, &alNet1, &alNet2, &sleep, &Big, &magicball);
+
+			SDL_Delay(10);
+		}
+	}
 
 
 	//Dọn dẹp mọi thứ

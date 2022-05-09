@@ -19,6 +19,9 @@
     <Filter Include="Resource Files\Music">
       <UniqueIdentifier>{8ca03c14-d521-4820-a62c-20b8c9271527}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Menu">
+      <UniqueIdentifier>{d861d564-43f8-431e-8fd5-3756e1298f5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\Collision.h">
@@ -79,6 +82,21 @@
     </Image>
     <Image Include="Resource Files\itemSleep.png">
       <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resource Files\Menu\exit1.bmp">
+      <Filter>Resource Files\Menu</Filter>
+    </Image>
+    <Image Include="Resource Files\Menu\exit2.bmp">
+      <Filter>Resource Files\Menu</Filter>
+    </Image>
+    <Image Include="Resource Files\Menu\start.bmp">
+      <Filter>Resource Files\Menu</Filter>
+    </Image>
+    <Image Include="Resource Files\Menu\start1.bmp">
+      <Filter>Resource Files\Menu</Filter>
+    </Image>
+    <Image Include="Resource Files\Menu\bg2.bmp">
+      <Filter>Resource Files\Menu</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

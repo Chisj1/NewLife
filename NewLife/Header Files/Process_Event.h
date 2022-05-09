@@ -9,3 +9,5 @@ void random_pos(int* pos, int left, int right);
 void init_item(itemOpject* item, const char* path, SDL_Renderer* renderTarget);
 void item_event(itemOpject* item, Opject* alCar1, Opject* alCar2, int startTime, int againTime, int effectTime, int realTime, int* item_posX, int* item_posY, int *a);
 void item_magicball(Opject* ball, itemOpject* magicball, Opject* alCar1, Opject* alCar2, int startTime, int againTime, int effectTime, int realTime, int* item_posX, int* item_posY, int *a);
+int menu(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* background_menu, SDL_Texture* start, SDL_Texture* exit1, SDL_Texture* start1, SDL_Texture* exit2);
+int CheckForcusWithRect(int x, int y, SDL_Rect rect);
