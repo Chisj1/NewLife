@@ -151,6 +151,7 @@
     <Image Include="Resource Files\Goal\g2.png" />
     <Image Include="Resource Files\Goal\g3.png" />
     <Image Include="Resource Files\Goal\goalCount.png" />
+    <Image Include="Resource Files\Goal\goalCount2.png" />
     <Image Include="Resource Files\itemSleep.png" />
     <Image Include="Resource Files\Menu\bg2.bmp" />
     <Image Include="Resource Files\Menu\exit1.bmp" />

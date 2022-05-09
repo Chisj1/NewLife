@@ -12,10 +12,9 @@
 #include"..\Header Files\Process_Event.h"
 #include "SDL_mixer.h"
 
-//TODO CHỉnh sửa va chạm giữa bóng và GOAL
-//TODO merge code với 2 ông kia
-//Test
-// tétttttt 
+//TODO thay nền menu + làm kết game
+
+
 int main(int argc, char *argv[])
 {
 	//Định hình các texture
@@ -89,11 +88,12 @@ int main(int argc, char *argv[])
 	goalRect.x = 800 - W / 3;
 	goalRect.y = 450 - H / 3;
 
-	goalCountTex1 = loadTexture(".\\Resource Files\\Goal\\goalCount.png", renderTarget);
-	goalCountTex2 = loadTexture(".\\Resource Files\\Goal\\goalCount.png", renderTarget);
+	//Hình ảnh đếm số bàn thắng
+	goalCountTex1 = loadTexture(".\\Resource Files\\Goal\\goalCount2.png", renderTarget);
+	goalCountTex2 = loadTexture(".\\Resource Files\\Goal\\goalCount2.png", renderTarget);
 
-	SDL_Rect SgoalCount1 = { 0, 0, 48 , 48 };
-	SDL_Rect SgoalCount2 = { 0, 0, 48 , 48 };
+	SDL_Rect SgoalCount1 = { 0, 0, 52 , 52 };
+	SDL_Rect SgoalCount2 = { 0, 0, 52 , 52 };
 	SDL_Rect DgoalCount1 = { 450, 20, 240, 240 };
 	SDL_Rect DgoalCount2 = { 900, 20, 240, 240 };
 
@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
 	//Biến điều kiện chạy hàm item
 	int a = 1, b = 1;
 
-	//Bắt đầu game
+	//Hiển thị menu lúc vào game
 	int Menu_check = menu(renderTarget, window, background_menu, start, exit1, start1, exit2);
 	if (Menu_check)
 	{
@@ -139,6 +139,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
+		//Bắt đầu game
 		timestart = SDL_GetTicks();
 		while (!done)
 		{
@@ -163,7 +164,7 @@ int main(int argc, char *argv[])
 			goalCounting(goalCount1, goalCount2, &SgoalCount1, &SgoalCount2, 48);
 
 			//Item hiệu ứng, item chỉ xuất hiện 2 lần mỗi loại
-			item_event(&Big, &alCar1, &alCar2, 3, 75, 7, realTime, item_posX, item_posY, &b);
+			item_event(&Big, &alCar1, &alCar2, 15, 75, 7, realTime, item_posX, item_posY, &b);
 			item_event(&sleep, &alCar1, &alCar2, 60, 150, 6, realTime, item_posX, item_posY, &b);
 			item_magicball(&alBall, &magicball, &alCar1, &alCar2, 105, 135, 5, realTime, item_posX, item_posY, &a);
 

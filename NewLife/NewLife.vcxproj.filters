@@ -98,6 +98,9 @@
     <Image Include="Resource Files\Menu\bg2.bmp">
       <Filter>Resource Files\Menu</Filter>
     </Image>
+    <Image Include="Resource Files\Goal\goalCount2.png">
+      <Filter>Resource Files\Goal</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Collision.c">
