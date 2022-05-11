@@ -209,6 +209,14 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 
 	SDL_SetRenderDrawColor(renderTarget, 255, 255, 255, 255);
 
+	//Đếm bàn thắng
+	SDL_RenderCopy(renderTarget, goalCount1, &SgoalCount1, &DgoalCount1);
+	SDL_RenderCopy(renderTarget, goalCount2, &SgoalCount2, &DgoalCount2);
+
+	//GOAL
+	SDL_RenderCopy(renderTarget, goal, NULL, &goalRect);
+
+
 	SDL_Point center1 = { CAR_WIDTH * (Big->car1_touch + 1) , (CAR_HEIGHT + 15) * (Big->car1_touch + 1) };
 	SDL_Point center2 = { CAR_WIDTH * (Big->car2_touch + 1) , (CAR_HEIGHT + 15) * (Big->car2_touch + 1) };//Set tâm quay cho 2 xe
 	SDL_Rect rect = { alCar->x, alCar->y, CAR_WIDTH * 2 * (Big->car1_touch + 1), CAR_HEIGHT * 2 * (Big->car1_touch + 1) };
@@ -220,12 +228,7 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 	SDL_Rect rectBall = { alBall->x, alBall->y, BALL_RADIUS + 15, BALL_RADIUS + 15 };
 	SDL_RenderCopyEx(renderTarget, ball, NULL, &rectBall, alBall->ang, NULL, 0);
 
-	//Đếm bàn thắng
-	SDL_RenderCopy(renderTarget, goalCount1, &SgoalCount1, &DgoalCount1);
-	SDL_RenderCopy(renderTarget, goalCount2, &SgoalCount2, &DgoalCount2);
-
-	//GOAL
-	SDL_RenderCopy(renderTarget, goal, NULL, &goalRect);
+	
 
 	//Render 2 cái lưới
 	SDL_Rect rectGoalNet1 = { alNet1->x, alNet1->y, GOAL_WIDTH*2.5, GOAL_HEIGHT*2.5 };
@@ -235,8 +238,8 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 
 
 	//Thuowsc ker
-	SDL_Rect rulerRect = { SCREEN_WIDTH - GOAL_WIDTH * 2.5, SCREEN_HEIGHT / 2 + GOAL_HEIGHT * 1.2, 200, 5 };
-	SDL_RenderCopy(renderTarget, ruler, NULL, &rulerRect);
+	//SDL_Rect rulerRect = { SCREEN_WIDTH - GOAL_WIDTH * 2.5, SCREEN_HEIGHT / 2 + GOAL_HEIGHT * 1.2, 200, 5 };
+	//SDL_RenderCopy(renderTarget, ruler, NULL, &rulerRect);
 
 	// Item
 	SDL_RenderCopy(renderTarget, sleep->texture, NULL, &sleep->drc);

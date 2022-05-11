@@ -26,7 +26,7 @@ void NetCollision(Opject *ball, Opject *net)
 			ball->gdy *= accGd * 0.1f;
 
 		}
-		else if (ball->x >= SCREEN_WIDTH - 90 - BALL_RADIUS / 2)
+		else if (ball->x >= SCREEN_WIDTH - 90 - BALL_RADIUS / 2 - 5)
 		{
 			ball->dx *= accD * 0.1f;
 			ball->dy *= accD * 0.1f;
@@ -35,7 +35,7 @@ void NetCollision(Opject *ball, Opject *net)
 
 		}
 	}
-	if (collide2d(ball->x, ball->y, net->x, net->y, wBall, hBall, wNet, hNet))
+	/*if (collide2d(ball->x, ball->y, net->x, net->y, wBall, hBall, wNet, hNet))
 	{
 
 		if (ball->y < 450)
@@ -61,7 +61,7 @@ void NetCollision(Opject *ball, Opject *net)
 			}
 		}
 
-	}
+	}*/
 
 }
 
