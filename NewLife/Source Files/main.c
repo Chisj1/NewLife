@@ -18,6 +18,7 @@
 int main(int argc, char *argv[])
 {
 	//Định hình các texture
+	srand((int)time(NULL));
 	static SDL_Texture *background = NULL;
 	static SDL_Texture *car1 = NULL;
 	static SDL_Texture *car2 = NULL;
@@ -33,7 +34,11 @@ int main(int argc, char *argv[])
 	static SDL_Texture* start1 = NULL;
 	static SDL_Texture* exit1 = NULL;
 	static SDL_Texture* exit2 = NULL;
-	
+	static SDL_Texture* playagain1 = NULL;
+	static SDL_Texture* playagain2 = NULL;
+	static SDL_Texture* win = NULL;
+	static SDL_Texture* lost = NULL;
+
 	//Khởi tạo màn hình chính
 	SDL_Window *window = NULL;
 	window = SDL_CreateWindow("Rocket League 2D", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
@@ -167,6 +172,12 @@ int main(int argc, char *argv[])
 			item_event(&Big, &alCar1, &alCar2, 15, 75, 7, realTime, item_posX, item_posY, &b);
 			item_event(&sleep, &alCar1, &alCar2, 60, 150, 6, realTime, item_posX, item_posY, &b);
 			item_magicball(&alBall, &magicball, &alCar1, &alCar2, 105, 135, 5, realTime, item_posX, item_posY, &a);
+
+			// endgame or playagain
+			if (realTime >= 30) {
+				done = endgame(renderTarget, window, background, win, lost, playagain1, exit1, playagain2, exit2, car1, car2, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, &goalCount1, &goalCount2, &alCar1, &alCar2, &alBall);
+				timestart = SDL_GetTicks();
+			}
 
 			//Render tất cả mọi thứ
 			doRender(renderTarget, &alCar1, &alCar2, &alBall, ruler, car1, car2, ball, background, goal, goalRect, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, DgoalCount1, DgoalCount2, goalNet1, goalNet2, &alNet1, &alNet2, &sleep, &Big, &magicball);

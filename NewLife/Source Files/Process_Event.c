@@ -423,6 +423,110 @@ int menu(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* background
 			}
 		}
 	}
+}
+
+// TODO cần làm ảnh chữ "playagain" , "Win", "Lost" rồi chỉnh rect của các ảnh 
+int endgame(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* background, SDL_Texture* win, SDL_Texture* lost, SDL_Texture* playagain1, SDL_Texture* exit1, SDL_Texture* playagain2, SDL_Texture* exit2, SDL_Texture* car1, SDL_Texture* car2, SDL_Texture* goalCountTex1, SDL_Texture* goalCountTex2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, int* goalCount1, int* goalCount2, Opject* alCar1, Opject* alCar2, Opject* alBall)
+{
+
+	playagain1 = loadTexture(".\\Resource Files\\Menu\\start.png", renderTarget);
+	playagain2 = loadTexture(".\\Resource Files\\Menu\\start1.png", renderTarget);
+	exit1 = loadTexture(".\\Resource Files\\Menu\\exit1.png", renderTarget);
+	exit2 = loadTexture(".\\Resource Files\\Menu\\exit2.png", renderTarget);
+	//win = loadTexture(".\\Resource Files\\Menu\\win.png", renderTarget);
+	//lost = loadTexture(".\\Resource Files\\Menu\\lost.png", renderTarget);
+
+	SDL_Rect drc_playagain = { SCREEN_WIDTH / 2 - 150, 600, 300, 70 };
+	SDL_Rect drc_exit = { SCREEN_WIDTH / 2 - 150, 700, 300, 70 };
+	SDL_Rect drc_goalcount1 = { 450, SCREEN_HEIGHT / 2 - 75, 150, 150 };
+	SDL_Rect drc_goalcount2 = { 1000, SCREEN_HEIGHT / 2 - 75, 150, 150 };
+	SDL_Rect drc_car1 = { 200, SCREEN_HEIGHT / 2 - 100, 120 , 200 };
+	SDL_Rect drc_car2 = { 1280, SCREEN_HEIGHT / 2 - 100, 120 , 200 };
+
+	/*if (*goalCount1 > *goalCount2)
+	{
+		SDL_Rect drc_win = { };
+		SDL_Rect drc_lost = {};
+	}
+	else if (*goalCount1 < *goalCount2)
+	{
+		SDL_Rect drc_win = { };
+		SDL_Rect drc_lost = {};
+	}
+	else if (*goalCount1 == *goalCount2)
+	{
+		lost = win;
+		SDL_Rect drc_win = { };
+		SDL_Rect drc_lost = {};
+	}*/
+
+	SDL_Event  m_event;
+	int xm = 0;
+	int ym = 0;
+	while (1)
+	{
+		SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
+
+		SDL_RenderClear(renderTarget);
+		SDL_RenderCopy(renderTarget, background, NULL, NULL);
+		SDL_RenderCopy(renderTarget, car1, NULL, &drc_car1);
+		SDL_RenderCopy(renderTarget, car2, NULL, &drc_car2);
+		SDL_RenderCopy(renderTarget, goalCountTex1, &SgoalCount1, &drc_goalcount1);
+		SDL_RenderCopy(renderTarget, goalCountTex1, &SgoalCount2, &drc_goalcount2);
+		SDL_RenderCopy(renderTarget, playagain1, NULL, &drc_playagain);
+		SDL_RenderCopy(renderTarget, exit1, NULL, &drc_exit);
+		SDL_RenderPresent(renderTarget);
+
+		while (SDL_PollEvent(&m_event))
+		{
+			switch (m_event.type)
+			{
+			case SDL_QUIT:
+			{
+				return 1;
+			}
+			break;
+			case SDL_MOUSEMOTION:
+			{
+				xm = m_event.motion.x;
+				ym = m_event.motion.y;
 
 
+				if (CheckForcusWithRect(xm, ym, drc_playagain))
+				{
+					SDL_RenderCopy(renderTarget, playagain2, NULL, &drc_playagain);
+					SDL_RenderPresent(renderTarget);
+					SDL_Delay(200);
+				}
+				if (CheckForcusWithRect(xm, ym, drc_exit))
+				{
+					SDL_RenderCopy(renderTarget, exit2, NULL, &drc_exit);
+					SDL_RenderPresent(renderTarget);
+					SDL_Delay(200);
+				}
+
+			}
+			break;
+			case SDL_MOUSEBUTTONDOWN:
+			{
+				xm = m_event.button.x;
+				ym = m_event.button.y;
+				if (CheckForcusWithRect(xm, ym, drc_playagain))
+				{
+					*goalCount1 = 0;
+					*goalCount2 = 0;
+					initOpject(alCar1, 120, SCREEN_HEIGHT / 2 - CAR_HEIGHT, 90);
+					initOpject(alCar2, SCREEN_WIDTH - 160 - CAR_WIDTH / 2, SCREEN_HEIGHT / 2 - CAR_HEIGHT, -90);
+					initOpject(alBall, SCREEN_WIDTH / 2 - 40, SCREEN_HEIGHT / 2 - 40, 0);
+					return 0;
+				}
+				if (CheckForcusWithRect(xm, ym, drc_exit))
+				{
+					return 1;
+				}
+			}
+			break;
+			}
+		}
+	}
 }
