@@ -349,15 +349,15 @@ int CheckForcusWithRect(int x, int y, SDL_Rect rect)
 int menu(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* background_menu, SDL_Texture* start, SDL_Texture* exit1, SDL_Texture* start1, SDL_Texture* exit2)
 {
 
-	background_menu = loadTexture(".\\Resource Files\\Menu\\bg2.bmp", renderTarget);
-	start = loadTexture(".\\Resource Files\\Menu\\start.bmp", renderTarget);
-	exit1 = loadTexture(".\\Resource Files\\Menu\\exit1.bmp", renderTarget);
-	start1 = loadTexture(".\\Resource Files\\Menu\\start1.bmp", renderTarget);
-	exit2 = loadTexture(".\\Resource Files\\Menu\\exit2.bmp", renderTarget);
-	SDL_Rect drc_start = { 600,200,400,200 };
-	SDL_Rect drc_exit1 = { 600,500,400,200 };
-	SDL_Rect drc_start1 = { 600,200,400,200 };
-	SDL_Rect drc_exit2 = { 600,500,400,200 };
+	background_menu = loadTexture(".\\Resource Files\\Menu\\test.png", renderTarget);
+	start = loadTexture(".\\Resource Files\\Menu\\start.png", renderTarget);
+	exit1 = loadTexture(".\\Resource Files\\Menu\\exit1.png", renderTarget);
+	start1 = loadTexture(".\\Resource Files\\Menu\\start1.png", renderTarget);
+	exit2 = loadTexture(".\\Resource Files\\Menu\\exit2.png", renderTarget);
+	SDL_Rect drc_start = { 450,300,674,124 };
+	SDL_Rect drc_exit1 = { 450,500,674,124 };
+	SDL_Rect drc_start1 = { 450,300,674,124 };
+	SDL_Rect drc_exit2 = { 450,500,674,124 };
 	int done;
 	SDL_Event  m_event;
 	int xm = 0;
