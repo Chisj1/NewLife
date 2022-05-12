@@ -246,6 +246,7 @@ void doRender(SDL_Renderer *renderTarget, Opject *alCar, Opject *alCar2, Opject 
 	SDL_RenderCopy(renderTarget, Big->texture, NULL, &Big->drc);
 	SDL_RenderCopy(renderTarget, magicball->texture, NULL, &magicball->drc);
 
+	
 	//Xuất mọi thứ 
 	SDL_RenderPresent(renderTarget);
 }
@@ -371,7 +372,6 @@ int menu(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* background
 
 		SDL_RenderClear(renderTarget);
 		SDL_RenderCopy(renderTarget, background_menu, NULL, NULL);
-
 		SDL_RenderCopy(renderTarget, start, NULL, &drc_start);
 		SDL_RenderCopy(renderTarget, exit1, NULL, &drc_exit1);
 		SDL_RenderPresent(renderTarget);
@@ -426,26 +426,26 @@ int menu(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* background
 }
 
 // TODO cần làm ảnh chữ "playagain" , "Win", "Lost" rồi chỉnh rect của các ảnh 
-int endgame(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* background, SDL_Texture* win, SDL_Texture* lost, SDL_Texture* playagain1, SDL_Texture* exit1, SDL_Texture* playagain2, SDL_Texture* exit2, SDL_Texture* car1, SDL_Texture* car2, SDL_Texture* goalCountTex1, SDL_Texture* goalCountTex2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, int* goalCount1, int* goalCount2, Opject* alCar1, Opject* alCar2, Opject* alBall)
+int endgame(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* background, SDL_Texture* win, SDL_Texture* lost, SDL_Texture* playagain1, SDL_Texture* exit1, SDL_Texture* playagain2, SDL_Texture* exit2, SDL_Texture* car1, SDL_Texture* car2, SDL_Texture* goalCountTex1, SDL_Texture* goalCountTex2, SDL_Rect SgoalCount1, SDL_Rect SgoalCount2, int* goalCount1, int* goalCount2, Opject* alCar1, Opject* alCar2, Opject* alBall,SDL_Texture* cup)
 {
 
-	playagain1 = loadTexture(".\\Resource Files\\Menu\\start.png", renderTarget);
-	playagain2 = loadTexture(".\\Resource Files\\Menu\\start1.png", renderTarget);
-	exit1 = loadTexture(".\\Resource Files\\Menu\\exit1.png", renderTarget);
-	exit2 = loadTexture(".\\Resource Files\\Menu\\exit2.png", renderTarget);
+	playagain1 = loadTexture(".\\Resource Files\\EndGame\\Replay1.png", renderTarget);
+	playagain2 = loadTexture(".\\Resource Files\\MEndGame\\Replay2.png", renderTarget);
+	exit1 = loadTexture(".\\Resource Files\\EndGame\\Exit1.png", renderTarget);
+	exit2 = loadTexture(".\\Resource Files\\EndGame\\Exit2.png", renderTarget);
 	//win = loadTexture(".\\Resource Files\\Menu\\win.png", renderTarget);
 	//lost = loadTexture(".\\Resource Files\\Menu\\lost.png", renderTarget);
-
-	SDL_Rect drc_playagain = { SCREEN_WIDTH / 2 - 150, 600, 300, 70 };
-	SDL_Rect drc_exit = { SCREEN_WIDTH / 2 - 150, 700, 300, 70 };
+	cup = loadTexture(".\\Resource Files\\EndGame\\Cup.png", renderTarget);
+	SDL_Rect drc_playagain = { SCREEN_WIDTH / 2 - 160, 600, 337, 62 };
+	SDL_Rect drc_exit = { SCREEN_WIDTH / 2 - 160,680, 337, 62 };
 	SDL_Rect drc_goalcount1 = { 450, SCREEN_HEIGHT / 2 - 75, 150, 150 };
 	SDL_Rect drc_goalcount2 = { 1000, SCREEN_HEIGHT / 2 - 75, 150, 150 };
 	SDL_Rect drc_car1 = { 200, SCREEN_HEIGHT / 2 - 100, 120 , 200 };
 	SDL_Rect drc_car2 = { 1280, SCREEN_HEIGHT / 2 - 100, 120 , 200 };
-
+	SDL_Rect drc_cup = { SCREEN_WIDTH / 2-235,SCREEN_HEIGHT / 2-350 ,500,500 };
 	/*if (*goalCount1 > *goalCount2)
 	{
-		SDL_Rect drc_win = { };
+		SDL_Rect drc_win =  {};
 		SDL_Rect drc_lost = {};
 	}
 	else if (*goalCount1 < *goalCount2)
@@ -458,9 +458,10 @@ int endgame(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* backgro
 		lost = win;
 		SDL_Rect drc_win = { };
 		SDL_Rect drc_lost = {};
-	}*/
+	}
+	*/
 
-	SDL_Event  m_event;
+	SDL_Event m_event;
 	int xm = 0;
 	int ym = 0;
 	while (1)
@@ -475,6 +476,7 @@ int endgame(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* backgro
 		SDL_RenderCopy(renderTarget, goalCountTex1, &SgoalCount2, &drc_goalcount2);
 		SDL_RenderCopy(renderTarget, playagain1, NULL, &drc_playagain);
 		SDL_RenderCopy(renderTarget, exit1, NULL, &drc_exit);
+		SDL_RenderCopy(renderTarget, cup, NULL, &drc_cup);
 		SDL_RenderPresent(renderTarget);
 
 		while (SDL_PollEvent(&m_event))

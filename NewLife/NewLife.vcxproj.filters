@@ -22,6 +22,9 @@
     <Filter Include="Resource Files\Menu">
       <UniqueIdentifier>{d861d564-43f8-431e-8fd5-3756e1298f5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\EndGame">
+      <UniqueIdentifier>{021d4307-6fc9-4aff-8ed9-b69d832d41c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\Collision.h">
@@ -100,6 +103,21 @@
     </Image>
     <Image Include="Resource Files\Goal\goalCount2.png">
       <Filter>Resource Files\Goal</Filter>
+    </Image>
+    <Image Include="Resource Files\EndGame\Exit1.png">
+      <Filter>Resource Files\EndGame</Filter>
+    </Image>
+    <Image Include="Resource Files\EndGame\Exit2.png">
+      <Filter>Resource Files\EndGame</Filter>
+    </Image>
+    <Image Include="Resource Files\EndGame\Replay1.png">
+      <Filter>Resource Files\EndGame</Filter>
+    </Image>
+    <Image Include="Resource Files\EndGame\Replay2.png">
+      <Filter>Resource Files\EndGame</Filter>
+    </Image>
+    <Image Include="Resource Files\EndGame\Cup.png">
+      <Filter>Resource Files\EndGame</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
