@@ -169,12 +169,12 @@ int main(int argc, char *argv[])
 			goalCounting(goalCount1, goalCount2, &SgoalCount1, &SgoalCount2, 40);
 
 			//Item hiệu ứng, item chỉ xuất hiện 2 lần mỗi loại
-			item_event(&Big, &alCar1, &alCar2, 15, 75, 7, realTime, item_posX, item_posY, &b);
+			item_event(&Big, &alCar1, &alCar2, 30, 75, 7, realTime, item_posX, item_posY, &b);
 			item_event(&sleep, &alCar1, &alCar2, 60, 150, 6, realTime, item_posX, item_posY, &b);
 			item_magicball(&alBall, &magicball, &alCar1, &alCar2, 105, 135, 5, realTime, item_posX, item_posY, &a);
 
 			// endgame or playagain
-			if (realTime >= 30) {
+			if (realTime >= 15) {
 				done = endgame(renderTarget, window, background, win, lost, playagain1, exit1, playagain2, exit2, car1, car2, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, &goalCount1, &goalCount2, &alCar1, &alCar2, &alBall, cup, soundEngGame);
 				timestart = SDL_GetTicks();
 			}

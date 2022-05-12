@@ -368,16 +368,17 @@ int menu(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* background
 	SDL_Event  m_event;
 	int xm = 0;
 	int ym = 0;
+
+	SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
+
+	SDL_RenderClear(renderTarget);
+	SDL_RenderCopy(renderTarget, background_menu, NULL, NULL);
+	SDL_RenderCopy(renderTarget, start, NULL, &drc_start);
+	SDL_RenderCopy(renderTarget, exit1, NULL, &drc_exit1);
+	SDL_RenderPresent(renderTarget);
+
 	while (1)
 	{
-		SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
-
-		SDL_RenderClear(renderTarget);
-		SDL_RenderCopy(renderTarget, background_menu, NULL, NULL);
-		SDL_RenderCopy(renderTarget, start, NULL, &drc_start);
-		SDL_RenderCopy(renderTarget, exit1, NULL, &drc_exit1);
-		SDL_RenderPresent(renderTarget);
-
 		while (SDL_PollEvent(&m_event))
 		{
 			switch (m_event.type)
@@ -397,15 +398,18 @@ int menu(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* background
 				{
 					SDL_RenderCopy(renderTarget, start1, NULL, &drc_start1);
 					SDL_RenderPresent(renderTarget);
-					SDL_Delay(200);
 				}
-				if (CheckForcusWithRect(xm, ym, drc_exit1))
+				else if (CheckForcusWithRect(xm, ym, drc_exit1))
 				{
 					SDL_RenderCopy(renderTarget, exit2, NULL, &drc_exit2);
 					SDL_RenderPresent(renderTarget);
-					SDL_Delay(200);
 				}
-
+				else
+				{
+					SDL_RenderCopy(renderTarget, start, NULL, &drc_start);
+					SDL_RenderCopy(renderTarget, exit1, NULL, &drc_exit1);
+					SDL_RenderPresent(renderTarget);
+				}
 			}
 			break;
 			case SDL_MOUSEBUTTONDOWN:
@@ -432,7 +436,7 @@ int endgame(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* backgro
 {
 
 	playagain1 = loadTexture(".\\Resource Files\\EndGame\\Replay1.png", renderTarget);
-	playagain2 = loadTexture(".\\Resource Files\\MEndGame\\Replay2.png", renderTarget);
+	playagain2 = loadTexture(".\\Resource Files\\EndGame\\Replay2.png", renderTarget);
 	exit1 = loadTexture(".\\Resource Files\\EndGame\\Exit1.png", renderTarget);
 	exit2 = loadTexture(".\\Resource Files\\EndGame\\Exit2.png", renderTarget);
 	//win = loadTexture(".\\Resource Files\\Menu\\win.png", renderTarget);
@@ -467,20 +471,21 @@ int endgame(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* backgro
 	SDL_Event m_event;
 	int xm = 0;
 	int ym = 0;
+
+	SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
+	SDL_RenderClear(renderTarget);
+	SDL_RenderCopy(renderTarget, background, NULL, NULL);
+	SDL_RenderCopy(renderTarget, car1, NULL, &drc_car1);
+	SDL_RenderCopy(renderTarget, car2, NULL, &drc_car2);
+	SDL_RenderCopy(renderTarget, goalCountTex1, &SgoalCount1, &drc_goalcount1);
+	SDL_RenderCopy(renderTarget, goalCountTex1, &SgoalCount2, &drc_goalcount2);
+	SDL_RenderCopy(renderTarget, playagain1, NULL, &drc_playagain);
+	SDL_RenderCopy(renderTarget, exit1, NULL, &drc_exit);
+	SDL_RenderCopy(renderTarget, cup, NULL, &drc_cup);
+	SDL_RenderPresent(renderTarget);
+
 	while (1)
 	{
-		SDL_SetRenderDrawColor(renderTarget, 0, 0, 255, 255);
-		SDL_RenderClear(renderTarget);
-		SDL_RenderCopy(renderTarget, background, NULL, NULL);
-		SDL_RenderCopy(renderTarget, car1, NULL, &drc_car1);
-		SDL_RenderCopy(renderTarget, car2, NULL, &drc_car2);
-		SDL_RenderCopy(renderTarget, goalCountTex1, &SgoalCount1, &drc_goalcount1);
-		SDL_RenderCopy(renderTarget, goalCountTex1, &SgoalCount2, &drc_goalcount2);
-		SDL_RenderCopy(renderTarget, playagain1, NULL, &drc_playagain);
-		SDL_RenderCopy(renderTarget, exit1, NULL, &drc_exit);
-		SDL_RenderCopy(renderTarget, cup, NULL, &drc_cup);
-		SDL_RenderPresent(renderTarget);
-
 		while (SDL_PollEvent(&m_event))
 		{
 			switch (m_event.type)
@@ -495,20 +500,22 @@ int endgame(SDL_Renderer* renderTarget, SDL_Window* window, SDL_Texture* backgro
 				xm = m_event.motion.x;
 				ym = m_event.motion.y;
 
-
 				if (CheckForcusWithRect(xm, ym, drc_playagain))
 				{
 					SDL_RenderCopy(renderTarget, playagain2, NULL, &drc_playagain);
 					SDL_RenderPresent(renderTarget);
-					SDL_Delay(200);
 				}
-				if (CheckForcusWithRect(xm, ym, drc_exit))
+				else if (CheckForcusWithRect(xm, ym, drc_exit))
 				{
 					SDL_RenderCopy(renderTarget, exit2, NULL, &drc_exit);
 					SDL_RenderPresent(renderTarget);
-					SDL_Delay(200);
 				}
-
+				else
+				{
+					SDL_RenderCopy(renderTarget, playagain1, NULL, &drc_playagain);
+					SDL_RenderCopy(renderTarget, exit1, NULL, &drc_exit);
+					SDL_RenderPresent(renderTarget);
+				}
 			}
 			break;
 			case SDL_MOUSEBUTTONDOWN:
