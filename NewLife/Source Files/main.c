@@ -93,19 +93,19 @@ int main(int argc, char *argv[])
 	goalRect.y = 450 - H / 3;
 
 	//Hình ảnh đếm số bàn thắng
-	goalCountTex1 = loadTexture(".\\Resource Files\\Goal\\goalCount2.png", renderTarget);
-	goalCountTex2 = loadTexture(".\\Resource Files\\Goal\\goalCount2.png", renderTarget);
+	goalCountTex1 = loadTexture(".\\Resource Files\\Goal\\goalCount3.png", renderTarget);
+	goalCountTex2 = loadTexture(".\\Resource Files\\Goal\\goalCount3.png", renderTarget);
 
-	SDL_Rect SgoalCount1 = { 0, 0, 52 , 52 };
-	SDL_Rect SgoalCount2 = { 0, 0, 52 , 52 };
-	SDL_Rect DgoalCount1 = { 450, 20, 240, 240 };
-	SDL_Rect DgoalCount2 = { 900, 20, 240, 240 };
+	SDL_Rect SgoalCount1 = { 0, 0, 40 , 52 };
+	SDL_Rect SgoalCount2 = { 0, 0, 40 , 52 };
+	SDL_Rect DgoalCount1 = { 490, 20, 184, 240 };
+	SDL_Rect DgoalCount2 = { 900, 20, 184, 240 };
 
 	//Khởi tạo item ,tạo mảng random vitri item 
 	itemOpject sleep, Big, magicball;
-	init_item(&sleep, ".\\Resource Files\\itemSleep.png", renderTarget);
-	init_item(&Big, ".\\Resource Files\\itemSleep.png", renderTarget);
-	init_item(&magicball, ".\\Resource Files\\itemSleep.png", renderTarget);
+	init_item(&sleep, ".\\Resource Files\\item.png", renderTarget);
+	init_item(&Big, ".\\Resource Files\\item.png", renderTarget);
+	init_item(&magicball, ".\\Resource Files\\item.png", renderTarget);
 	int item_posX[20], item_posY[20];
 	random_pos(item_posX, 350, SCREEN_WIDTH - 350);
 	random_pos(item_posY, 100, SCREEN_HEIGHT - 100);
@@ -127,8 +127,9 @@ int main(int argc, char *argv[])
 	Mix_Music *bgm = Mix_LoadMUS(".\\Resource Files\\Music\\gameBGmusic.mp3");
 	if (bgm == NULL)
 		printf("Music Er");
-	Mix_VolumeMusic(MIX_MAX_VOLUME / 5);
+	Mix_VolumeMusic(MIX_MAX_VOLUME / 3);
 	Mix_Chunk *soundEffectGoal = Mix_LoadWAV(".\\Resource Files\\Music\\goal.wav");
+	Mix_Chunk *soundEngGame = Mix_LoadWAV(".\\Resource Files\\Music\\EngameSound.wav");
 	if (soundEffectGoal == NULL)
 		printf("Eror SOund");
 
@@ -165,7 +166,7 @@ int main(int argc, char *argv[])
 			}
 
 			//Tính điểm bàn thắng	
-			goalCounting(goalCount1, goalCount2, &SgoalCount1, &SgoalCount2, 48);
+			goalCounting(goalCount1, goalCount2, &SgoalCount1, &SgoalCount2, 40);
 
 			//Item hiệu ứng, item chỉ xuất hiện 2 lần mỗi loại
 			item_event(&Big, &alCar1, &alCar2, 15, 75, 7, realTime, item_posX, item_posY, &b);
@@ -174,7 +175,7 @@ int main(int argc, char *argv[])
 
 			// endgame or playagain
 			if (realTime >= 30) {
-				done = endgame(renderTarget, window, background, win, lost, playagain1, exit1, playagain2, exit2, car1, car2, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, &goalCount1, &goalCount2, &alCar1, &alCar2, &alBall);
+				done = endgame(renderTarget, window, background, win, lost, playagain1, exit1, playagain2, exit2, car1, car2, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, &goalCount1, &goalCount2, &alCar1, &alCar2, &alBall, cup, soundEngGame);
 				timestart = SDL_GetTicks();
 			}
 			//Render tất cả mọi thứ

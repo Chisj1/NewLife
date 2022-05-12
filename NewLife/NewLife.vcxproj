@@ -22,14 +22,14 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{BBCB50D1-6EEC-4082-B7BB-9D69A5E01D4A}</ProjectGuid>
     <RootNamespace>NewLife</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -157,6 +157,8 @@
     <Image Include="Resource Files\Goal\g3.png" />
     <Image Include="Resource Files\Goal\goalCount.png" />
     <Image Include="Resource Files\Goal\goalCount2.png" />
+    <Image Include="Resource Files\Goal\goalCount3.png" />
+    <Image Include="Resource Files\item.png" />
     <Image Include="Resource Files\itemSleep.png" />
     <Image Include="Resource Files\Menu\bg2.bmp" />
     <Image Include="Resource Files\Menu\exit1.bmp" />
@@ -173,6 +175,7 @@
     <ClCompile Include="Source Files\WindowSDL.c" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="Resource Files\Music\EngameSound.wav" />
     <Media Include="Resource Files\Music\gameBGmusic.mp3" />
     <Media Include="Resource Files\Music\goal.wav" />
   </ItemGroup>

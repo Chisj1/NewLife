@@ -119,6 +119,12 @@
     <Image Include="Resource Files\EndGame\Cup.png">
       <Filter>Resource Files\EndGame</Filter>
     </Image>
+    <Image Include="Resource Files\Goal\goalCount3.png">
+      <Filter>Resource Files\Goal</Filter>
+    </Image>
+    <Image Include="Resource Files\item.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Collision.c">
@@ -142,6 +148,9 @@
       <Filter>Resource Files\Music</Filter>
     </Media>
     <Media Include="Resource Files\Music\goal.wav">
+      <Filter>Resource Files\Music</Filter>
+    </Media>
+    <Media Include="Resource Files\Music\EngameSound.wav">
       <Filter>Resource Files\Music</Filter>
     </Media>
   </ItemGroup>
