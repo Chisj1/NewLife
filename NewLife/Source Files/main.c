@@ -173,9 +173,8 @@ int main(int argc, char *argv[])
 			item_magicball(&alBall, &magicball, &alCar1, &alCar2, 105, 135, 5, realTime, item_posX, item_posY, &a);
 
 			// endgame or playagain
-			
 			if (realTime >= 30) {
-				done = endgame(renderTarget, window, background, win, lost, playagain1, exit1, playagain2, exit2, car1, car2, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, &goalCount1, &goalCount2, &alCar1, &alCar2, &alBall,cup);
+				done = endgame(renderTarget, window, background, win, lost, playagain1, exit1, playagain2, exit2, car1, car2, goalCountTex1, goalCountTex2, SgoalCount1, SgoalCount2, &goalCount1, &goalCount2, &alCar1, &alCar2, &alBall);
 				timestart = SDL_GetTicks();
 			}
 			//Render tất cả mọi thứ
